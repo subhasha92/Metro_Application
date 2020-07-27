@@ -13,13 +13,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
-    @POST(EndApi.REGISTER_USER)
 
+    @POST(EndApi.REGISTER_USER)
    Call<JsonElement> registerUser(@Body Registration registrationModule);
+
 
    @POST(EndApi.LOGIN_USER)
    Call<LoginResponse> login(@Query("email") String email,
-
                            @Query("password") String password);
 
     @POST(EndApi.LOGIN_USER)

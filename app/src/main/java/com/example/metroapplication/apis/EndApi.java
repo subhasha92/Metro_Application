@@ -3,7 +3,7 @@ package com.example.metroapplication.apis;
 
 public class EndApi extends BaseApi {
     public static final String LOGIN_USER = "login";
-    public static final String REGISTER_USER = "register";
+    public static final String REGISTER_USER = "custReg";
     public static final String PROFILE_INFO = "profile_info";
     public static final String UPDATE_PROFILE = "update_info";
     public static final String UPDATE_PROFILE_PICTURE = "profile_pic";
