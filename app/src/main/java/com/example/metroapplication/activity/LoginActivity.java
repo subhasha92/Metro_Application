@@ -3,9 +3,12 @@ package com.example.metroapplication.activity;
 
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -14,15 +17,22 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.metroapplication.R;
+import com.example.metroapplication.constants.Constants;
 import com.example.metroapplication.utils.ConnectionDetector;
+import com.example.metroapplication.utils.PermissionManagerUtil;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static com.example.metroapplication.utils.PermissionManagerUtil.REQUEST_PERMISSION_PHONE_STATE;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgotPwd, signUpLink;
     EditText emailInput, passwordInput;
     CheckBox showHide;
+    PermissionManagerUtil pm;
     ConnectionDetector cd;
     String email, password;
     //LoginResponse logresponse;
@@ -42,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +71,15 @@ public class LoginActivity extends AppCompatActivity {
         emailInput = (EditText) findViewById(R.id.email_input);
         passwordInput = (EditText) findViewById(R.id.password_input);
         showHide = (CheckBox) findViewById(R.id.show_hide_checkbox);
+        pm=new PermissionManagerUtil(this);
+        pm.showPhoneStatePermission();
+        Constants.ipAddress=pm.getLocalIpAddress();
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if(PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,READ_PHONE_STATE))
+        {
+            Constants.imei = telephonyManager.getDeviceId();
+        }
+
         cd = new ConnectionDetector(LoginActivity.this);
         signUpLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +136,26 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_PHONE_STATE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + requestCode);
+        }
     }
 
 }

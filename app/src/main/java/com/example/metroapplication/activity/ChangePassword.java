@@ -10,18 +10,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.metroapplication.apis.ApiClient;
+import com.example.metroapplication.apis.ApiInterface;
+import com.example.metroapplication.apis.apiModel.ChangePassData;
+import com.example.metroapplication.apis.apiModel.ChangePassModule;
+import com.example.metroapplication.constants.Constants;
+import com.example.metroapplication.sharedPref.AppPreferences;
+import com.example.metroapplication.sharedPref.VariablesConstant;
 import com.example.metroapplication.utils.MenuActivity;
 import com.example.metroapplication.R;
+import com.google.gson.JsonElement;
 
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ChangePassword extends MenuActivity {
 
     Button submit;
-    EditText edtPassword, edtConfirmPassword;
+    EditText edtCurrectpasswrd,edtPassword, edtConfirmPassword;
+    String currentPass, newPass, confirmPass;
+
+    ChangePassData changePassData;
+    ChangePassModule changePassModule;
+    ApiInterface apiInterface;
 
     @Override       // for font style
     protected void attachBaseContext(Context newBase) {
@@ -45,6 +61,7 @@ public class ChangePassword extends MenuActivity {
         }else{getSupportActionBar().setTitle("Change Password");}
 
         submit=findViewById(R.id.submit_chnPasswordBtn);
+        edtCurrectpasswrd=findViewById(R.id.current_pass_chp);
         edtPassword=findViewById(R.id.new_pass_chp);
         edtConfirmPassword=findViewById(R.id.confirm_pass_chp);
 
@@ -52,11 +69,52 @@ public class ChangePassword extends MenuActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ChangePassword.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+
+                if (isvalidation()){
+                    loadData();
+                    changePassModule=new ChangePassModule();
+                    changePassModule.setChannelId(1);
+                    changePassModule.setTokenId("tok1234");
+                    changePassModule.setPayload(changePassData);
+
+                    apiInterface= ApiClient.getClient().create(ApiInterface.class);
+
+                    Call<JsonElement> call=apiInterface.changePassword(changePassModule);
+                    call.enqueue(new Callback<JsonElement>() {
+                        @Override
+                        public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+
+                            if (response.code() == 200) {
+                                Intent intent=new Intent(ChangePassword.this,MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        }
+                        @Override
+                        public void onFailure(Call<JsonElement> call, Throwable t) {
+                        }
+                    });
+
+                }
             }
         });
+    }
+
+    private void loadData() {
+        changePassData=new ChangePassData();
+currentPass=edtCurrectpasswrd.getText().toString();
+newPass=edtPassword.getText().toString();
+confirmPass=edtConfirmPassword.getText().toString();
+
+String userid= AppPreferences.getAppPrefrences(VariablesConstant.USER_ID,this);
+
+        changePassData.setUserId(userid);
+        changePassData.setOldPassword(currentPass);
+        changePassData.setNewPassword(newPass);
+        changePassData.setImei(Constants.imei);
+        changePassData.setIpAddress(Constants.ipAddress);
+
     }
 
     @Override
@@ -86,7 +144,10 @@ public class ChangePassword extends MenuActivity {
             edtConfirmPassword.setError("Confirm Password doesn't Match");
 //            edtConfirmPassword.setText("");
             return false;
-        }
+        }else if (edtCurrectpasswrd.length() == 0) {
+             edtCurrectpasswrd.setError("Please Enter Current Password");
+             return false;
+         }
 
         return true;
     }

@@ -134,7 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
-                android:text="Adult"
+                android:text="Amount"
                 android:layout_gravity="center"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size" />
@@ -164,92 +164,7 @@
             </TextView>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_left_right"
-            android:id="@+id/childLayout"
-            android:layout_marginTop="@dimen/margin_top"
-            android:layout_marginRight="@dimen/margin_left_right"
-            android:weightSum="2">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="Children"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:text=":"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size"
-                tools:ignore="HardcodedText" />
-
-
-            <TextView
-                android:id="@+id/children_journey_preview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1.2"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/textColor">
-
-            </TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_left_right"
-            android:id="@+id/srLayout"
-            android:layout_marginTop="@dimen/margin_top"
-            android:layout_marginRight="@dimen/margin_left_right"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="Senior Citizen"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:text=":"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size" />
-
-
-            <TextView
-                android:id="@+id/senior_journey_preview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1.2"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/textColor">
-
-            </TextView>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

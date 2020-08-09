@@ -8,11 +8,11 @@ public class EndApi extends BaseApi {
     public static final String UPDATE_PROFILE = "update_info";
     public static final String UPDATE_PROFILE_PICTURE = "profile_pic";
     public static final String SEND_OTP = "otp";
-    public static final String VALIDATE_OTP = "validate_otp";
+    public static final String VALIDATE_OTP = "mobileVerification";
     public static final String SOCIALLOGIN = "logintest";
     public static final String FORGET_PASSWORD = "recover";
-    public static final String CHANGE_PASSWORD = "change_password";
-    public static final String VALIDATE_PASSWORD = "validate_password";
+    public static final String CHANGE_PASSWORD = "changePwd";
+    public static final String VALUE_QR_TICKET = "issueValueQR";
     public static final String SHOW_VEHICLE_LIST = "show_vehicles";
     public static final String SHOW_VEHICLE_LIST1 = "show_vehicles1";
     public static final String SHOW_DRIVER_LIST = "show_driver";

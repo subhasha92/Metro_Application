@@ -26,7 +26,7 @@ public class JourneyPreviewActivity extends MenuActivity {
 
     TextView preview;
 
-    LinearLayout adultLayout, childLayout, srLayout;
+    LinearLayout adultLayout;
 
 
     @Override
@@ -60,8 +60,8 @@ public class JourneyPreviewActivity extends MenuActivity {
         }else{getSupportActionBar().setTitle("Preview");}
 
         float adultCount=getIntent().getFloatExtra("adult",0);
-        float childCount= getIntent().getFloatExtra("child",0);
-        float srCount= getIntent().getFloatExtra("sr",0);
+//        float childCount= getIntent().getFloatExtra("child",0);
+//        float srCount= getIntent().getFloatExtra("sr",0);
         float disc=getIntent().getFloatExtra("disc",0);
         float actual=getIntent().getFloatExtra("amount",0);
 
@@ -69,8 +69,8 @@ public class JourneyPreviewActivity extends MenuActivity {
         backBtn=findViewById(R.id.back_journey_preview);
 
         adultLayout=findViewById(R.id.adultLayout);
-        childLayout=findViewById(R.id.childLayout);
-        srLayout=findViewById(R.id.srLayout);
+//        childLayout=findViewById(R.id.childLayout);
+//        srLayout=findViewById(R.id.srLayout);
         preview=findViewById(R.id.preive_preview);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams_Bold.ttf");
@@ -79,12 +79,12 @@ public class JourneyPreviewActivity extends MenuActivity {
         if (adultCount==0.0){
             adultLayout.setVisibility(View.GONE);
         }
-        if (childCount==0.0){
-            childLayout.setVisibility(View.GONE);
-        }
-        if (srCount==0.0){
-            srLayout.setVisibility(View.GONE);
-        }
+//        if (childCount==0.0){
+//            childLayout.setVisibility(View.GONE);
+//        }
+//        if (srCount==0.0){
+//            srLayout.setVisibility(View.GONE);
+//        }
 
 
         payNow.setOnClickListener(new View.OnClickListener() {

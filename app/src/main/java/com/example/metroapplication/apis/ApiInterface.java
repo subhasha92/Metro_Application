@@ -1,11 +1,18 @@
 package com.example.metroapplication.apis;
 
 
+import com.example.metroapplication.apis.apiModel.ChangePassModule;
 import com.example.metroapplication.apis.apiModel.ChangePasswordResponse;
 import com.example.metroapplication.apis.apiModel.ForgetPasswordResponse;
+import com.example.metroapplication.apis.apiModel.IssueValueQRRequest;
+import com.example.metroapplication.apis.apiModel.IssueValueQRResponse;
 import com.example.metroapplication.apis.apiModel.LoginResponse;
+import com.example.metroapplication.apis.apiModel.MobileVerification;
 import com.example.metroapplication.apis.apiModel.Registration;
+import com.example.metroapplication.apis.apiModel.RegistrationResponse;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -15,33 +22,35 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @POST(EndApi.REGISTER_USER)
-   Call<JsonElement> registerUser(@Body Registration registrationModule);
+   Call<RegistrationResponse> registerUser(@Body Registration registrationModule);
+
+    @GET(EndApi.CHANGE_PASSWORD)
+    Call<JsonElement> changePassword(@Body ChangePassModule changePassModule);
 
 
    @POST(EndApi.LOGIN_USER)
    Call<LoginResponse> login(@Query("email") String email,
                            @Query("password") String password);
 
-    @POST(EndApi.LOGIN_USER)
-   Call<LoginResponse> login2(@Query("email") String email,
-                             @Query("password") String password,
-                            @Query("mobile") String mobile);
+    @POST(EndApi.VALUE_QR_TICKET)
+   Call<IssueValueQRResponse> issueValueQR(@Body IssueValueQRRequest issueValueQRRequest );
 
   @POST(EndApi.FORGET_PASSWORD)
 
   Call<ForgetPasswordResponse> forgotPassword(@Query("email") String email);
 
-//   @GET(EndApi.PROFILE_INFO)
-//   Call<FromResponse> FromStationList(@Query("token") String token);
 
 
-//  @POST(EndApi.LOGIN_USER)
-//  Call<LogoutResponse> logout(@Query("user_id ") String user_id);
+
+  @POST(EndApi.VALIDATE_OTP)
+  Call<JsonObject> validateMobile(@Body MobileVerification mobileVerification);
 
        @POST(EndApi.CHANGE_PASSWORD)
   Call<ChangePasswordResponse> changePassword(@Query("token") String token,
                                             @Query("old_password") String old_password,
                                            @Query("new_password") String new_password);
+
+
 
 
 //  @POST(EndApi.UPDATE_PROFILE)

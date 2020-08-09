@@ -5,10 +5,46 @@ public class RegistrationData {
         String firstName;
         String lastName;
         String email;
-        int mobile;
+        String mobile;
         String password;
-        Long imei;
+        String imei;
         String ipAddress;
+        String address;
+        String city;
+        String state;
+        String pinCode;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -34,11 +70,11 @@ public class RegistrationData {
         this.email = email;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
@@ -50,11 +86,11 @@ public class RegistrationData {
         this.password = password;
     }
 
-    public Long getImei() {
+    public String getImei() {
         return imei;
     }
 
-    public void setImei(Long imei) {
+    public void setImei(String imei) {
         this.imei = imei;
     }
 
