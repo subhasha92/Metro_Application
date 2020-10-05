@@ -33,6 +33,11 @@ public class ChangePassword extends MenuActivity {
 // helllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
 
 
+
+
+
+
+
     Button submit;
     EditText edtCurrectpasswrd, edtPassword, edtConfirmPassword;
     String currentPass, newPass, confirmPass;
