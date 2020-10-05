@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(
             int requestCode,
-            String permissions[],
+            String[] permissions,
             int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSION_PHONE_STATE:

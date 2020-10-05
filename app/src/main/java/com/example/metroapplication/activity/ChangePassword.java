@@ -30,13 +30,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ChangePassword extends MenuActivity {
-// helllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
-
-
-
-
-
-
 
     Button submit;
     EditText edtCurrectpasswrd, edtPassword, edtConfirmPassword;

@@ -1,5 +1,5 @@
 <application>
-  <component name="ExternalResourceManagerImpl">
-    <ignored-resource url="http://schemas.android.com/apk/res/android" />
-  </component>
+    <component name="ExternalResourceManagerImpl">
+        <ignored-resource url="http://schemas.android.com/apk/res/android" />
+    </component>
 </application>

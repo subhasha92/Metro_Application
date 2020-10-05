@@ -128,7 +128,7 @@ public class RegistrationActivity extends Activity {
                                 RegistrationResponse rg = response.body();
                                 assert rg != null;
                                 List<RegistrationResponseData> rgData = rg.getPayload();
-                                System.out.print(String.valueOf(rgData.get(0).getMobileOtp()));
+                                System.out.print(rgData.get(0).getMobileOtp());
                                 Intent i = new Intent(RegistrationActivity.this, OtpActivity.class);
                                 i.putExtra("otp", rgData.get(0).getMobileOtp());
                                 i.putExtra("tokenId", rgData.get(0).getTokenId());
@@ -239,7 +239,7 @@ public class RegistrationActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(
             int requestCode,
-            String permissions[],
+            String[] permissions,
             int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSION_PHONE_STATE:
