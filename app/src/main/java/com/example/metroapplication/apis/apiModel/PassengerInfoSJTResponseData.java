@@ -1,6 +1,8 @@
 package com.example.metroapplication.apis.apiModel;
 
-public class PassengerInfoSJTResponseData {
+import java.io.Serializable;
+
+public class PassengerInfoSJTResponseData implements Serializable {
 
      int pssTypeId;
      String pssType;

@@ -45,7 +45,7 @@ import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class JourneyPreviewActivity extends MenuActivity {
+public class JourneyPreviewActivity extends MenuActivity{
 
     Button payNow, backBtn;
 
@@ -159,7 +159,7 @@ public class JourneyPreviewActivity extends MenuActivity {
                                 Toast.makeText(JourneyPreviewActivity.this, "Success" + response.body(), Toast.LENGTH_SHORT).show();
                                 SjtQrResponse sjtQrResponse=response.body();
                                 Intent intent=new Intent(JourneyPreviewActivity.this,PostPaymentActivity.class);
-                                intent.putExtra("data", (Serializable) sjtQrResponse);
+                                intent.putExtra("data", sjtQrResponse);
                                 intent.putExtra("flag",1);
                                 startActivity(intent);
                             }
@@ -194,7 +194,7 @@ public class JourneyPreviewActivity extends MenuActivity {
         llst.add(passengerInfoSJTRequestData);
 
         String userId=AppPreferences.getAppPrefrences(VariablesConstant.USER_EMAIL,this);
-        String tktBookingDate = String.valueOf(new Date());
+        String tktBookingDate = String.valueOf(android.text.format.DateFormat.format("yyyy-MM-dd", new java.util.Date()));
         String srcStnId = "22";
         String destStnId = "34";
         Random rnd = new Random();

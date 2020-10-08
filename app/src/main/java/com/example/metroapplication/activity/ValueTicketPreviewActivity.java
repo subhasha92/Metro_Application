@@ -35,7 +35,7 @@ import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ValueTicketPreviewActivity extends MenuActivity {
+public class ValueTicketPreviewActivity extends MenuActivity{
 
     Button Backbtn, PaynowBtn;
 
@@ -128,7 +128,7 @@ public class ValueTicketPreviewActivity extends MenuActivity {
                                     Log.i(TAG, "onResponse: " + msg);
                                     //Toast.makeText(ValueTicketPreviewActivity.this, msg, Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(ValueTicketPreviewActivity.this, PostPaymentActivity.class);
-                                    intent.putExtra("data", (Serializable) reg);
+                                    intent.putExtra("data", reg);
                                     intent.putExtra("flag",2);
                                     startActivity(intent);
                                     finish();

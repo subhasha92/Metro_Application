@@ -2,9 +2,10 @@ package com.example.metroapplication.apis.apiModel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class IssueValueQRResponse {
+public class IssueValueQRResponse implements Serializable {
 
 
     @SerializedName("status")

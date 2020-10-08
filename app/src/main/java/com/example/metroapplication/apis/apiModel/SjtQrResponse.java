@@ -1,8 +1,9 @@
 package com.example.metroapplication.apis.apiModel;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SjtQrResponse {
+public class SjtQrResponse implements Serializable {
 
         int status;
         String message;

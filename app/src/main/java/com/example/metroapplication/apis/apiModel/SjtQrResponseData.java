@@ -1,8 +1,9 @@
 package com.example.metroapplication.apis.apiModel;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SjtQrResponseData {
+public class SjtQrResponseData implements Serializable {
 
         String tktBookingdt;
            int srcStnId;
