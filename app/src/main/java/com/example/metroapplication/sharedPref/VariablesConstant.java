@@ -17,7 +17,8 @@ public class VariablesConstant {
     public static final String DEVICE_IMEI = "DEVICE_IMEI"; // device_IMEI
 
     public static final String USER_TYPE = "USER_TYPE";
-    public static final String USER_FULL_NAME = "USER_FULL_NAME";
+    public static final String USER_FIRSTNAME = "USER_FIRSTNAME";
+    public static final String USER_LASTNAME = "USER_LASTNAME";
 
 
     public static final String USER_NAME = "USER_NAME";

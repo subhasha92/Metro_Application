@@ -53,6 +53,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/fromlinear_post_payment"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_left_right"
                     android:layout_marginTop="@dimen/margin_top"
@@ -81,6 +82,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="Delhi"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -91,6 +94,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/tolinear_post_payment"
                     android:layout_marginLeft="@dimen/margin_left_right"
                     android:layout_marginTop="@dimen/margin_top"
                     android:layout_marginRight="@dimen/margin_left_right"
@@ -118,6 +122,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="Noida"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -155,6 +161,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="36.0"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -192,6 +200,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="07-Oct-2020"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -230,6 +240,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="1:40 PM"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -267,6 +279,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="3:40 PM"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -304,6 +318,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="P123456"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -341,6 +357,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="654321"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">
@@ -378,6 +396,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:text="TR123456"
+                        android:gravity="center"
                         android:layout_weight="1.2"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/text_size">

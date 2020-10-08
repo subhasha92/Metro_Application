@@ -1,19 +1,14 @@
 package com.example.metroapplication.apis.apiModel;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.List;
 
-public class IssueValueQRResponse implements Serializable {
+public class SjtQrResponse implements Serializable {
 
+        int status;
+        String message;
+        List<SjtQrResponseData> payload;
 
-    @SerializedName("status")
-    int status;
-    @SerializedName("message")
-    String message;
-    @SerializedName("payload")
-    List<IssueValueQRResponseData> payload;
 
     public int getStatus() {
         return status;
@@ -31,11 +26,11 @@ public class IssueValueQRResponse implements Serializable {
         this.message = message;
     }
 
-    public List<IssueValueQRResponseData> getPayload() {
+    public List<SjtQrResponseData> getPayload() {
         return payload;
     }
 
-    public void setPayload(List<IssueValueQRResponseData> payload) {
+    public void setPayload(List<SjtQrResponseData> payload) {
         this.payload = payload;
     }
 }

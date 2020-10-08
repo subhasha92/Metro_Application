@@ -7,9 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.metroapplication.R;
+import com.example.metroapplication.sharedPref.AppPreferences;
+import com.example.metroapplication.sharedPref.VariablesConstant;
 import com.example.metroapplication.utils.MenuActivity;
 
 import java.util.Objects;
@@ -20,6 +23,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MyProfileActivity extends MenuActivity {
 
     Button chPassword, Backbtn, SaveBtn;
+    EditText etFname, etLname, etEmai,etMobile,etAddress,etCity,etState,etPincode;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,8 +58,27 @@ public class MyProfileActivity extends MenuActivity {
         }
 
         // chPassword=findViewById(R.id.chpass_btn_my_profile);
+
+        etFname=findViewById(R.id.fname_my_profile);
+        etLname=findViewById(R.id.lname_my_profile);
+        etMobile=findViewById(R.id.mobile_my_profile);
+        etEmai=findViewById(R.id.email_my_profile);
+        etAddress=findViewById(R.id.address_my_profile);
+        etCity=findViewById(R.id.city_my_profile);
+        etState=findViewById(R.id.state_my_profile);
+        etPincode=findViewById(R.id.pin_my_profile);
+
+
         Backbtn = findViewById(R.id.back_btn_my_profile);
         SaveBtn = findViewById(R.id.save_btn_my_profile);
+
+        etMobile.setEnabled(false);
+
+        etFname.setText(AppPreferences.getAppPrefrences(VariablesConstant.USER_FIRSTNAME,this));
+        etLname.setText(AppPreferences.getAppPrefrences(VariablesConstant.USER_LASTNAME,this));
+        etMobile.setText(AppPreferences.getAppPrefrences(VariablesConstant.MOBILE,this));
+        etEmai.setText(AppPreferences.getAppPrefrences(VariablesConstant.USER_EMAIL,this));
+
 
         SaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

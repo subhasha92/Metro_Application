@@ -27,12 +27,17 @@ public class HomeActivity extends MenuActivity {
 
     Spinner from, to;
     Button addAdult, minusAdult, addChild, minusChild, addSr, minusSr, previewBtn, back;
-    TextView adultCount, childCount, srCount, adultFare, childFare, srFare, discountFare, totalFare, actualFare;
+    TextView adultCount, adultFare, discountFare, totalFare, actualFare;
     TextView joourneyTIck, amountToPay;
 
-    float adult, child, sr, disc, Actual;
+    float disc, Actual;
+    float Total;
+    int adult;
 
-    // --Commented out by Inspecti// --Commented out by Inspection (22-07-2020 18:46):on (22-07-2020 18:46):RadioGroup selectedTrips;
+    String jType;
+
+    int fare = 40;
+
     RadioButton singleTrip, returnTrip;
 
     IncreamentDecreament mID;
@@ -65,17 +70,12 @@ public class HomeActivity extends MenuActivity {
         returnTrip = findViewById(R.id.return_radio_home);
         addAdult = findViewById(R.id.increase_adult_home);
         minusAdult = findViewById(R.id.decrease_adult_home);
-//        addChild=findViewById(R.id.increase_child_home);
-//        minusChild=findViewById(R.id.decrease_child_home);
-//        addSr=findViewById(R.id.increase_sr_home);
-//        minusSr=findViewById(R.id.decrease_sr_home);
+
         adultCount = findViewById(R.id.adult_number_home);
-//        childCount=findViewById(R.id.number_child_home);
-//        srCount=findViewById(R.id.number_sr_home);
+
         previewBtn = findViewById(R.id.preview_home);
         adultFare = findViewById(R.id.adult_amount_home);
-//        childFare=findViewById(R.id.child_amount_home);
-//        srFare=findViewById(R.id.sr_amount_home);
+
         discountFare = findViewById(R.id.discounted_fare_home);
         totalFare = findViewById(R.id.total_amount_home);
         actualFare = findViewById(R.id.actual_amount_home);
@@ -90,7 +90,10 @@ public class HomeActivity extends MenuActivity {
 
         if (type == 2) {
             returnTrip.setChecked(true);
-        }
+            jType="RJT";
+
+        }else
+        {jType="SJT";}
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams_Bold.ttf");
         joourneyTIck.setTypeface(typeface);
@@ -98,8 +101,7 @@ public class HomeActivity extends MenuActivity {
         amountToPay.setTypeface(typeface);
 
         adultFare.setText("Rs 0.00");
-//        childFare.setText("Rs 0.00");
-//        srFare.setText("Rs 0.00");
+
         totalFare.setText("Rs 0.00");
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -116,20 +118,7 @@ public class HomeActivity extends MenuActivity {
                 UpdateFare();
             }
         });
-//        addChild.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mID.increase(childCount);
-//                UpdateFare();
-//            }
-//        });
-//        addSr.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mID.increase(srCount);
-//                UpdateFare();
-//            }
-//        });
+
         minusAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,24 +128,6 @@ public class HomeActivity extends MenuActivity {
 
             }
         });
-//        minusChild.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                mID.decrease(childCount);
-//                UpdateFare();
-//
-//            }
-//        });
-//        minusSr.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                mID.decrease(srCount);
-//                UpdateFare();
-//
-//            }
-//        });
 
         previewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,12 +135,14 @@ public class HomeActivity extends MenuActivity {
 
                 if (isvalidation()) {
 
+                    int adultCounting= Integer.parseInt(adultCount.getText().toString().trim());
 
                     Intent intent = new Intent(HomeActivity.this, JourneyPreviewActivity.class);
-                    intent.putExtra("adult", adult);
-//                intent.putExtra("child",child);
-//                intent.putExtra("sr",sr);
+                    intent.putExtra("count", adult);
+                    intent.putExtra("total", Total);
+                    intent.putExtra("tiketType", jType);
                     intent.putExtra("disc", disc);
+                    intent.putExtra("fare",fare);
                     intent.putExtra("amount", Actual);
                     startActivity(intent);
                 }
@@ -179,23 +152,15 @@ public class HomeActivity extends MenuActivity {
 
     }
 
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void UpdateFare() {
-
-        adult = Float.parseFloat(adultCount.getText().toString());
-        int fare = 40;
+        adult = Integer.parseInt(adultCount.getText().toString());
         float adultFare = fare * adult;
-//         child= Float.parseFloat(childCount.getText().toString());
-//        float childFare = fare * child;
-//         sr= Float.parseFloat(srCount.getText().toString());
-//        float srFare = fare * sr;
-        float Total = adultFare;
+         Total = adultFare;
         disc = Total * 10 / 100;
         Actual = Total - disc;
 
         this.adultFare.setText(String.format("Rs %.2f", adultFare));
-//        this.childFare.setText(String.format("Rs %.2f", childFare));
-//        this.srFare.setText(String.format("Rs %.2f", srFare));
+
         this.totalFare.setText(String.format("Rs %.2f", Total));
         this.discountFare.setText(String.format("Rs %.2f", disc));
         this.actualFare.setText(String.format("Rs %.2f", Actual));

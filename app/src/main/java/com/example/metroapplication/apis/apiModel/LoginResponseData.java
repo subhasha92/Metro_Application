@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoginResponseData {
 
-    @SerializedName("id")
-    private int id;
+    @SerializedName("mobile")
+    private String mobile;
     @SerializedName("token")
     private String token;
-    @SerializedName("stations")
-    private String stations;
-    @SerializedName("status")
-    private String status;
-    @SerializedName("userRole")
-    private String userRole;
+    @SerializedName("firstName")
+    private String firstName;
+    @SerializedName("emailId")
+    private String emailId;
+    @SerializedName("lastName")
+    private String lastName;
     @SerializedName("deviceId")
     private String deviceId;
-    @SerializedName("apiKey")
-    private String apiKey;
+    @SerializedName("status")
+    private String status;
     @SerializedName("errorMsg")
     private String errorMsg;
     @SerializedName("userId")
@@ -25,13 +25,52 @@ public class LoginResponseData {
     @SerializedName("pwd")
     private String pwd;
 
+    private String address;
 
-    public int getId() {
-        return id;
+    private String city;
+
+    private String state;
+
+    private String pinCode;
+
+    public String getAddress() {
+        return address;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getToken() {
@@ -42,28 +81,28 @@ public class LoginResponseData {
         this.token = token;
     }
 
-    public String getStations() {
-        return stations;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setStations(String stations) {
-        this.stations = stations;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getStatus() {
-        return status;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDeviceId() {
@@ -74,12 +113,12 @@ public class LoginResponseData {
         this.deviceId = deviceId;
     }
 
-    public String getApiKey() {
-        return apiKey;
+    public String getStatus() {
+        return status;
     }
 
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getErrorMsg() {

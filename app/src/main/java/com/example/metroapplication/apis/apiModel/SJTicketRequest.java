@@ -18,11 +18,23 @@ public class SJTicketRequest {
         return channelId;
     }
 
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
+    }
+
     public String getTokenId() {
         return tokenId;
     }
 
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
     public SJTicketRequestData getPayload() {
         return payload;
+    }
+
+    public void setPayload(SJTicketRequestData payload) {
+        this.payload = payload;
     }
 }

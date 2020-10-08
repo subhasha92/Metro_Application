@@ -13,6 +13,7 @@ import com.example.metroapplication.apis.apiModel.OtpResponse;
 import com.example.metroapplication.apis.apiModel.Registration;
 import com.example.metroapplication.apis.apiModel.RegistrationResponse;
 import com.example.metroapplication.apis.apiModel.SJTicketRequest;
+import com.example.metroapplication.apis.apiModel.SjtQrResponse;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -47,7 +48,7 @@ public interface ApiInterface {
     Call<JsonObject> getMasterData(@Body MasterData masterData);
 
     @POST(EndApi.SJT_TICKET)
-    Call<JsonObject> sjtBook(@Body SJTicketRequest SJTicketRequest);
+    Call<SjtQrResponse> sjtBook(@Body SJTicketRequest SJTicketRequest);
 
 
 //  @POST(EndApi.UPDATE_PROFILE)
