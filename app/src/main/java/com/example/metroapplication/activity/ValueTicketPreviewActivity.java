@@ -26,6 +26,7 @@ import com.example.metroapplication.utils.MenuActivity;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -46,7 +47,7 @@ public class ValueTicketPreviewActivity extends MenuActivity {
     float value;
     ConnectionDetector cd;
 
-    TextView preview, previewAmount;
+    TextView preview, previewAmount, preiveTicktType;
     private String TAG = ValueTicketPreviewActivity.class.getName();
 
     @Override       // for font style
@@ -75,6 +76,7 @@ public class ValueTicketPreviewActivity extends MenuActivity {
         PaynowBtn = findViewById(R.id.pay_now_btn_vt_preview);
 
         preview = findViewById(R.id.preive_preview);
+        preiveTicktType=findViewById(R.id.value_ticket_vt_preview);
         previewAmount = findViewById(R.id.total_amount_vt_preview);
         cd = new ConnectionDetector(this);
 
@@ -84,6 +86,7 @@ public class ValueTicketPreviewActivity extends MenuActivity {
         value = getIntent().getFloatExtra("amount", 0.00f);
 
         previewAmount.setText(String.format("Rs %s", value));
+        preiveTicktType.setText("Value Ticket");
 
         Backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,11 +124,12 @@ public class ValueTicketPreviewActivity extends MenuActivity {
                                 assert reg != null;
                                 if (reg.getStatus() == 200) {
                                     progressdialog.dismiss();
-
                                     String msg = reg.getMessage();
                                     Log.i(TAG, "onResponse: " + msg);
-                                    Toast.makeText(ValueTicketPreviewActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(ValueTicketPreviewActivity.this, msg, Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(ValueTicketPreviewActivity.this, PostPaymentActivity.class);
+                                    intent.putExtra("data", (Serializable) reg);
+                                    intent.putExtra("flag",2);
                                     startActivity(intent);
                                     finish();
 

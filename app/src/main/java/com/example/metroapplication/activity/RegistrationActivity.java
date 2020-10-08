@@ -122,13 +122,14 @@ public class RegistrationActivity extends Activity {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
-                            if (response.code() == 200) {
+                           if (response.code()==200){
+                               RegistrationResponse rg = response.body();
+                               assert rg != null;
+                               if (rg.getStatus()==200) {
                                 progressdialog.dismiss();
                                 errorText.setVisibility(View.GONE);
-                                RegistrationResponse rg = response.body();
-                                assert rg != null;
                                 List<RegistrationResponseData> rgData = rg.getPayload();
-                                System.out.print(rgData.get(0).getMobileOtp());
+                                    System.out.print(rgData.get(0).getMobileOtp());
                                 Intent i = new Intent(RegistrationActivity.this, OtpActivity.class);
                                 i.putExtra("otp", rgData.get(0).getMobileOtp());
                                 i.putExtra("tokenId", rgData.get(0).getTokenId());
@@ -139,7 +140,13 @@ public class RegistrationActivity extends Activity {
                                 edtEmail.setFocusable(true);
                                 errorText.setVisibility(View.VISIBLE);
                                 errorText.setText("Email ID already Exist");
-                            }
+                            } else
+                               {
+                                   errorText.setVisibility(View.VISIBLE);
+                                   errorText.setText("Email ID or Password wrong");
+                               }
+
+                        }
 
                         }
 
