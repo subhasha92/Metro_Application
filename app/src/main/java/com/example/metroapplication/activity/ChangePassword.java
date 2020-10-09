@@ -1,5 +1,6 @@
 package com.example.metroapplication.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -9,12 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.metroapplication.R;
 import com.example.metroapplication.apis.ApiClient;
 import com.example.metroapplication.apis.ApiInterface;
 import com.example.metroapplication.apis.apiModel.ChangePassData;
 import com.example.metroapplication.apis.apiModel.ChangePassModule;
+import com.example.metroapplication.apis.apiModel.ChangePasswordResponse;
 import com.example.metroapplication.constants.Constants;
 import com.example.metroapplication.sharedPref.AppPreferences;
 import com.example.metroapplication.sharedPref.VariablesConstant;
@@ -73,29 +76,44 @@ public class ChangePassword extends MenuActivity {
             public void onClick(View v) {
 
                 if (isvalidation()) {
+                    final ProgressDialog progressdialog = ProgressDialog.show(
+                            ChangePassword.this, "Please wait",
+                            "Loading please wait..", true);
+                    progressdialog.show();
                     loadData();
                     changePassModule = new ChangePassModule();
                     changePassModule.setChannelId(1);
-                    changePassModule.setTokenId("tok1234");
+                    changePassModule.setTokenId(AppPreferences.getAppPrefrences(VariablesConstant.TOKEN,ChangePassword.this));
                     changePassModule.setPayload(changePassData);
 
                     apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-                    Call<JsonElement> call = apiInterface.changePassword(changePassModule);
-                    call.enqueue(new Callback<JsonElement>() {
+                    Call<ChangePasswordResponse> call = apiInterface.changePassword(changePassModule);
+                    call.enqueue(new Callback<ChangePasswordResponse>() {
                         @Override
-                        public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                        public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
 
                             if (response.code() == 200) {
+                              ChangePasswordResponse changePasswordResponse=response.body();
+                              if (changePasswordResponse.getStatus()==200){
+                                progressdialog.dismiss();
+                                Toast.makeText(ChangePassword.this, "Succesfull", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(ChangePassword.this, MainActivity.class);
                                 startActivity(intent);
-                                finish();
+                                finish();}
+                              else
+                              {
+                                  progressdialog.dismiss();
+                                  Toast.makeText(ChangePassword.this, "Old Password not correct", Toast.LENGTH_SHORT).show();
+                              }
                             }
 
                         }
 
                         @Override
-                        public void onFailure(Call<JsonElement> call, Throwable t) {
+                        public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
+                            progressdialog.dismiss();
+                            Toast.makeText(ChangePassword.this, "Failed : "+t.getCause(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -110,7 +128,7 @@ public class ChangePassword extends MenuActivity {
         newPass = edtPassword.getText().toString();
         confirmPass = edtConfirmPassword.getText().toString();
 
-        String userid = AppPreferences.getAppPrefrences(VariablesConstant.USER_ID, this);
+        String userid = AppPreferences.getAppPrefrences(VariablesConstant.USER_EMAIL, this);
 
         changePassData.setUserId(userid);
         changePassData.setOldPassword(currentPass);

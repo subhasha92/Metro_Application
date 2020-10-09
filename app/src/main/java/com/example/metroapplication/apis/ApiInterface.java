@@ -2,6 +2,7 @@ package com.example.metroapplication.apis;
 
 
 import com.example.metroapplication.apis.apiModel.ChangePassModule;
+import com.example.metroapplication.apis.apiModel.ChangePasswordResponse;
 import com.example.metroapplication.apis.apiModel.ForgetPasswordResponse;
 import com.example.metroapplication.apis.apiModel.IssueValueQRRequest;
 import com.example.metroapplication.apis.apiModel.IssueValueQRResponse;
@@ -29,7 +30,7 @@ public interface ApiInterface {
     Call<RegistrationResponse> registerUser(@Body Registration registrationModule);
 
     @GET(EndApi.CHANGE_PASSWORD)
-    Call<JsonElement> changePassword(@Body ChangePassModule changePassModule);
+    Call<ChangePasswordResponse> changePassword(@Body ChangePassModule changePassModule);
 
 
     @POST(EndApi.LOGIN)
