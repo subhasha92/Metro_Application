@@ -22,6 +22,7 @@ import com.example.metroapplication.constants.Constants;
 import com.example.metroapplication.sharedPref.AppPreferences;
 import com.example.metroapplication.sharedPref.VariablesConstant;
 import com.example.metroapplication.utils.MenuActivity;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonElement;
 
 import java.util.Objects;
@@ -87,7 +88,6 @@ public class ChangePassword extends MenuActivity {
                     changePassModule.setPayload(changePassData);
 
                     apiInterface = ApiClient.getClient().create(ApiInterface.class);
-
                     Call<ChangePasswordResponse> call = apiInterface.changePassword(changePassModule);
                     call.enqueue(new Callback<ChangePasswordResponse>() {
                         @Override
@@ -97,7 +97,7 @@ public class ChangePassword extends MenuActivity {
                               ChangePasswordResponse changePasswordResponse=response.body();
                               if (changePasswordResponse.getStatus()==200){
                                 progressdialog.dismiss();
-                                Toast.makeText(ChangePassword.this, "Succesfull", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(v, "Succesfully Changed",Snackbar.LENGTH_LONG).show();
                                 Intent intent = new Intent(ChangePassword.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();}

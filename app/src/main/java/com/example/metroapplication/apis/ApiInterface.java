@@ -29,7 +29,7 @@ public interface ApiInterface {
     @POST(EndApi.REGISTER_USER)
     Call<RegistrationResponse> registerUser(@Body Registration registrationModule);
 
-    @GET(EndApi.CHANGE_PASSWORD)
+    @POST(EndApi.CHANGE_PASSWORD)
     Call<ChangePasswordResponse> changePassword(@Body ChangePassModule changePassModule);
 
 
