@@ -4,7 +4,6 @@ package com.example.metroapplication.myDataBase;
 public class Stations {
 
     public static final String stationTableName = "stations";
-
     public static final String stationId = "stnId";
     public static final String stationName = "stnName";
     public static final String stationInterchange = "isInterchange";

@@ -54,9 +54,7 @@ public class MYdb extends SQLiteOpenHelper {
         cv.put(MyTicketDbConstant.myTicketValidity, myTicketModel.getMyTicketValidity());
         cv.put(MyTicketDbConstant.myTicketFare, myTicketModel.getMyTicketFare());
         cv.put(MyTicketDbConstant.myTicketQR, myTicketModel.getMyTicketQR());
-        //inserting row
         db.insert(MyTicketDbConstant.myTicketTableName, null, cv);
-        //close the database to avoid any leak
         db.close();
     }
 

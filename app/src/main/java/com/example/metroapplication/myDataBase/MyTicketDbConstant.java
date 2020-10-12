@@ -4,7 +4,6 @@ package com.example.metroapplication.myDataBase;
 public class MyTicketDbConstant {
 
     public static final String myTicketTableName = "MyTicket";
-
     public static final String myTicketid = "id";
     public static final String myTicketNo = "ticketNo";
     public static final String myTicketType = "ticketType";
