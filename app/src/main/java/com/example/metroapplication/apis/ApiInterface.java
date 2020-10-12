@@ -9,6 +9,7 @@ import com.example.metroapplication.apis.apiModel.IssueValueQRResponse;
 import com.example.metroapplication.apis.apiModel.LoginModule;
 import com.example.metroapplication.apis.apiModel.LoginResponse;
 import com.example.metroapplication.apis.apiModel.MasterData;
+import com.example.metroapplication.apis.apiModel.MasterRequest;
 import com.example.metroapplication.apis.apiModel.MobileVerification;
 import com.example.metroapplication.apis.apiModel.OtpResponse;
 import com.example.metroapplication.apis.apiModel.Registration;
@@ -46,7 +47,7 @@ public interface ApiInterface {
     Call<OtpResponse> validateMobile(@Body MobileVerification mobileVerification);
 
     @POST(EndApi.GET_MASTER_DATA)
-    Call<JsonObject> getMasterData(@Body MasterData masterData);
+    Call<MasterData> getMasterData(@Body MasterRequest masterData);
 
     @POST(EndApi.SJT_TICKET)
     Call<SjtQrResponse> sjtBook(@Body SJTicketRequest SJTicketRequest);

@@ -2,32 +2,25 @@ package com.example.metroapplication.apis.apiModel;
 
 public class MasterData {
 
-    String channelId;
-    String tokenId;
-
+    int status;
+            String message;
     MasterPayload payload;
 
 
-    public MasterData(String channelId, String tokenId, MasterPayload payload) {
-        this.channelId = channelId;
-        this.tokenId = tokenId;
-        this.payload = payload;
+    public int getStatus() {
+        return status;
     }
 
-    public String getChannelId() {
-        return channelId;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
+    public String getMessage() {
+        return message;
     }
 
-    public String getTokenId() {
-        return tokenId;
-    }
-
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public MasterPayload getPayload() {
