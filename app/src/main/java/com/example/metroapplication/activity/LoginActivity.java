@@ -127,16 +127,16 @@ public class LoginActivity extends AppCompatActivity {
                                         AppPreferences.setAppPrefrences(VariablesConstant.TOKEN, loginResponseData.get(0).getToken(), LoginActivity.this);
                                         AppPreferences.setAppPrefrences(VariablesConstant.MOBILE, loginResponseData.get(0).getMobile(), LoginActivity.this);
                                         AppPreferences.setAppPrefrences(VariablesConstant.USER_FIRSTNAME,loginResponseData.get(0).getFirstName(),LoginActivity.this);
-                                       AppPreferences.setAppPrefrences(VariablesConstant.USER_LASTNAME,loginResponseData.get(0).getLastName(),LoginActivity.this);
+                                        AppPreferences.setAppPrefrences(VariablesConstant.USER_LASTNAME,loginResponseData.get(0).getLastName(),LoginActivity.this);
                                         AppPreferences.setAppPrefrences(VariablesConstant.USER_EMAIL,loginResponseData.get(0).getEmailId(),LoginActivity.this);
                                         AppPreferences.setAppPrefrences(VariablesConstant.PASSWORD,loginResponseData.get(0).getPwd(),LoginActivity.this);
                                         progressdialog.dismiss();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     }
-                                 else if (loginResponse.getMessage().equals("Email_Id already Exist")){
+                                 else if (loginResponse.getMessage().equals("Email_Id or Password wrong")){
                                     progressdialog.dismiss();
-                                    Toast.makeText(LoginActivity.this, "Email ID already exist", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Email ID or Password wrong", Toast.LENGTH_SHORT).show();
                                     }else
                                     {
                                         progressdialog.dismiss();
@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String pass = passwordInput.getText().toString();
         String imei = Constants.imei;
-//        String ip=Constants.ipAddress;
+
         LoginPayload payload = new LoginPayload(email,pass,imei);
         loginModule = new LoginModule("1", "tok1234", payload);
     }
