@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -16,8 +17,11 @@ import android.widget.TextView;
 
 import com.example.metroapplication.R;
 import com.example.metroapplication.helper.IncreamentDecreament;
+import com.example.metroapplication.myDataBase.MYdb;
 import com.example.metroapplication.utils.MenuActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -25,8 +29,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends MenuActivity {
 
-    Spinner from, to;
-    Button addAdult, minusAdult, addChild, minusChild, addSr, minusSr, previewBtn, back;
+    Spinner fromSpinner, toSpinner;
+    Button addAdult, minusAdult, previewBtn, back;
     TextView adultCount, adultFare, discountFare, totalFare, actualFare;
     TextView joourneyTIck, amountToPay;
 
@@ -81,9 +85,11 @@ public class HomeActivity extends MenuActivity {
         actualFare = findViewById(R.id.actual_amount_home);
         back = findViewById(R.id.back_home);
         joourneyTIck = findViewById(R.id.juorneyTick);
-        from = findViewById(R.id.spinner_from);
-        to = findViewById(R.id.spinner_to);
+        fromSpinner = findViewById(R.id.spinner_from);
+        toSpinner = findViewById(R.id.spinner_to);
         amountToPay = findViewById(R.id.amounttopay_home);
+
+        loadSpinnerData();
 
 
         int type = getIntent().getIntExtra("type", 0);
@@ -180,18 +186,36 @@ public class HomeActivity extends MenuActivity {
 
     public boolean isvalidation() {
 
-        String name1 = from.getSelectedItem().toString();
-        String name2 = to.getSelectedItem().toString();
+        String name1 = fromSpinner.getSelectedItem().toString();
+        String name2 = toSpinner.getSelectedItem().toString();
 
         if (name1.equals("Null")) {
-            ((TextView) from.getChildAt(0)).setError("Select Location");
+            ((TextView) fromSpinner.getChildAt(0)).setError("Select Location");
             return false;
         }
         if (name2.equals("Null")) {
-            ((TextView) to.getSelectedView()).setError("Select Location");
+            ((TextView) toSpinner.getSelectedView()).setError("Select Location");
             return false;
         }
 
         return true;
+    }
+
+    private void loadSpinnerData() {
+        MYdb db = new MYdb(getApplicationContext());
+        List<String> labels = db.getAllLabels();
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        fromSpinner.setSelection(0);
+        toSpinner.setSelection(0);
+        fromSpinner.setAdapter(dataAdapter);
+        toSpinner.setAdapter(dataAdapter);
+
     }
 }

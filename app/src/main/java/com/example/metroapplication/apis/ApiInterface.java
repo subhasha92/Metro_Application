@@ -3,6 +3,7 @@ package com.example.metroapplication.apis;
 
 import com.example.metroapplication.apis.apiModel.ChangePassModule;
 import com.example.metroapplication.apis.apiModel.ChangePasswordResponse;
+import com.example.metroapplication.apis.apiModel.FareRequestApi;
 import com.example.metroapplication.apis.apiModel.ForgetPasswordResponse;
 import com.example.metroapplication.apis.apiModel.IssueValueQRRequest;
 import com.example.metroapplication.apis.apiModel.IssueValueQRResponse;
@@ -18,6 +19,8 @@ import com.example.metroapplication.apis.apiModel.SJTicketRequest;
 import com.example.metroapplication.apis.apiModel.SjtQrResponse;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -51,6 +54,9 @@ public interface ApiInterface {
 
     @POST(EndApi.SJT_TICKET)
     Call<SjtQrResponse> sjtBook(@Body SJTicketRequest SJTicketRequest);
+
+    @POST(EndApi.GET_FARE)
+    Call<JSONObject> getFare(@Body FareRequestApi fareRequestApi);
 
 
 //  @POST(EndApi.UPDATE_PROFILE)
