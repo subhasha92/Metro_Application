@@ -1,8 +1,6 @@
 package com.example.metroapplication.apis.apiModel;
 
 public class FareRequestData {
-
-
             String ticketType;
                    int srcStnId;
                    int desStnId;

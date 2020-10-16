@@ -2,9 +2,8 @@ package com.example.metroapplication.apis.apiModel;
 
 public class FareRequestApi {
 
-        int channelId;
+            int channelId;
             String tokenId;
-
             FareRequestData payload;
 
     public FareRequestApi(int channelId, String tokenId, FareRequestData payload) {
