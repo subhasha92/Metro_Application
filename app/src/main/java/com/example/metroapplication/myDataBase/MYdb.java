@@ -73,7 +73,6 @@ public class MYdb extends SQLiteOpenHelper {
         cv.put(Stations.gpsLocation, stationModel.getIntchngLine());
         cv.put(Stations.stationInterchangeLine, stationModel.getIntchngLine());
         cv.put(Stations.stationOriginLine, stationModel.getOrgLine());
-
         //inserting row
         db.insert(Stations.stationTableName, null, cv);
         //close the database to avoid any leak
@@ -102,6 +101,19 @@ public class MYdb extends SQLiteOpenHelper {
         db.close();
         // returning lables
         return list;
+    }
+
+    public int getStationId(String stationName){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+       Cursor cursor = db.query(Stations.stationTableName,
+                new String[]{Stations.stationId},
+                Stations.stationName + "=?",
+                new String[]{stationName},null,null,null);
+
+            int id=cursor.getInt(0);
+
+            return id;
     }
 
 }

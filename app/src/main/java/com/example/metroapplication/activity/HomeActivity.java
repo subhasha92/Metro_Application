@@ -9,25 +9,41 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.metroapplication.R;
+import com.example.metroapplication.apis.ApiClient;
+import com.example.metroapplication.apis.ApiInterface;
+import com.example.metroapplication.apis.apiModel.FareRequestApi;
+import com.example.metroapplication.apis.apiModel.FareRequestData;
+import com.example.metroapplication.apis.apiModel.FareResponse;
 import com.example.metroapplication.helper.IncreamentDecreament;
 import com.example.metroapplication.myDataBase.MYdb;
+import com.example.metroapplication.myDataBase.MyTicketDbConstant;
+import com.example.metroapplication.sharedPref.AppPreferences;
+import com.example.metroapplication.sharedPref.VariablesConstant;
+import com.example.metroapplication.utils.ConnectionDetector;
 import com.example.metroapplication.utils.MenuActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class HomeActivity extends MenuActivity {
+import static android.widget.AdapterView.*;
+
+public class HomeActivity extends MenuActivity implements OnItemSelectedListener {
 
     Spinner fromSpinner, toSpinner;
     Button addAdult, minusAdult, previewBtn, back;
@@ -38,9 +54,18 @@ public class HomeActivity extends MenuActivity {
     float Total;
     int adult;
 
+    ConnectionDetector cd;
+    ApiInterface apiInterface;
+
     String jType;
 
+    MYdb mYdb;
+
+    FareRequestApi fareRequestApi;
+
     int fare = 40;
+
+    int typeT;
 
     RadioButton singleTrip, returnTrip;
 
@@ -97,9 +122,11 @@ public class HomeActivity extends MenuActivity {
         if (type == 2) {
             returnTrip.setChecked(true);
             jType="RJT";
+            typeT=2;
 
         }else
-        {jType="SJT";}
+        {jType="SJT";
+            typeT=1;}
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams_Bold.ttf");
         joourneyTIck.setTypeface(typeface);
@@ -109,6 +136,12 @@ public class HomeActivity extends MenuActivity {
         adultFare.setText("Rs 0.00");
 
         totalFare.setText("Rs 0.00");
+
+        cd=new ConnectionDetector(this);
+
+       fromSpinner.setOnItemSelectedListener(this);
+       toSpinner.setOnItemSelectedListener(this);
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,4 +251,66 @@ public class HomeActivity extends MenuActivity {
         toSpinner.setAdapter(dataAdapter);
 
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String fromname= fromSpinner.getSelectedItem().toString();
+        String toname= toSpinner.getSelectedItem().toString();
+        if (!fromname.equals("Select your Station") && !toname.equals("Select your Station"));
+        {
+            mYdb = new MYdb(this);
+            if (cd.isConnectingToInternet()) {
+                loadData();
+                apiInterface = ApiClient.getClient().create(ApiInterface.class);
+                Call<FareResponse> call=apiInterface.getFare(fareRequestApi);
+                call.enqueue(new Callback<FareResponse>() {
+                    @Override
+                    public void onResponse(Call<FareResponse> call, Response<FareResponse> response) {
+
+                        if (response.code()==200){}
+
+
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<FareResponse> call, Throwable t) {
+
+
+
+                    }
+                });
+
+
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void loadData() {
+        int channelId = 1;
+        String tokenId= AppPreferences.getAppPrefrences(VariablesConstant.TOKEN,this);
+
+        String ticketType = jType;
+        int srcStnId = mYdb.getStationId(fromSpinner.getSelectedItem().toString());
+        int desStnId=mYdb.getStationId(toSpinner.getSelectedItem().toString());
+        int paxType =3;
+        int tktJrnyType=typeT;
+        int noOfPax=1;
+
+        FareRequestData payload=new FareRequestData(ticketType,srcStnId,desStnId,paxType,tktJrnyType,noOfPax);
+
+        fareRequestApi=new FareRequestApi(channelId,tokenId,payload);
+    }
+
+
+
+
 }

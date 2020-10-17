@@ -4,6 +4,7 @@ package com.example.metroapplication.apis;
 import com.example.metroapplication.apis.apiModel.ChangePassModule;
 import com.example.metroapplication.apis.apiModel.ChangePasswordResponse;
 import com.example.metroapplication.apis.apiModel.FareRequestApi;
+import com.example.metroapplication.apis.apiModel.FareResponse;
 import com.example.metroapplication.apis.apiModel.ForgetPasswordResponse;
 import com.example.metroapplication.apis.apiModel.IssueValueQRRequest;
 import com.example.metroapplication.apis.apiModel.IssueValueQRResponse;
@@ -56,7 +57,7 @@ public interface ApiInterface {
     Call<SjtQrResponse> sjtBook(@Body SJTicketRequest SJTicketRequest);
 
     @POST(EndApi.GET_FARE)
-    Call<JSONObject> getFare(@Body FareRequestApi fareRequestApi);
+    Call<FareResponse> getFare(@Body FareRequestApi fareRequestApi);
 
 
 //  @POST(EndApi.UPDATE_PROFILE)
