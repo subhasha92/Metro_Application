@@ -1,5 +1,6 @@
 package com.example.metroapplication.myDataBase;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -105,15 +106,22 @@ public class MYdb extends SQLiteOpenHelper {
 
     public int getStationId(String stationName){
 
+        int id = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-       Cursor cursor = db.query(Stations.stationTableName,
-                new String[]{Stations.stationId},
-                Stations.stationName + "=?",
-                new String[]{stationName},null,null,null);
 
-            int id=cursor.getInt(0);
+        String query="SELECT * FROM "+Stations.stationTableName+" WHERE "+Stations.stationName+" = ?";
+       Cursor cursor = db.rawQuery(query,
+                new String[]{stationName});
 
-            return id;
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+                id = cursor.getInt(cursor.getColumnIndex(Stations.stationId));
+            cursor.close();
+        }
+
+        db.close();
+        return id;
     }
 
 }

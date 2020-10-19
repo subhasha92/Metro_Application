@@ -13,6 +13,8 @@ import com.example.metroapplication.apis.apiModel.LoginResponse;
 import com.example.metroapplication.apis.apiModel.MasterData;
 import com.example.metroapplication.apis.apiModel.MasterRequest;
 import com.example.metroapplication.apis.apiModel.MobileVerification;
+import com.example.metroapplication.apis.apiModel.MyTripRequest;
+import com.example.metroapplication.apis.apiModel.MyTripResponse;
 import com.example.metroapplication.apis.apiModel.OtpResponse;
 import com.example.metroapplication.apis.apiModel.Registration;
 import com.example.metroapplication.apis.apiModel.RegistrationResponse;
@@ -59,6 +61,8 @@ public interface ApiInterface {
     @POST(EndApi.GET_FARE)
     Call<FareResponse> getFare(@Body FareRequestApi fareRequestApi);
 
+    @POST(EndApi.GET_TRIPS)
+    Call<MyTripResponse> getMyTrips(@Body MyTripRequest myTripRequest);
 
 //  @POST(EndApi.UPDATE_PROFILE)
 //  Call<UpdateProfileResponse> updateUserProfile(
