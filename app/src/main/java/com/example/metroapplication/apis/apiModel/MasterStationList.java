@@ -9,8 +9,6 @@ public class MasterStationList {
     String landMark;
             String gpsLocation;
     String stnBrandName;
-            String emergencyContactList;
-
             String stnType;
 
             String intchngLine;
@@ -71,14 +69,6 @@ public class MasterStationList {
 
     public void setStnBrandName(String stnBrandName) {
         this.stnBrandName = stnBrandName;
-    }
-
-    public String getEmergencyContactList() {
-        return emergencyContactList;
-    }
-
-    public void setEmergencyContactList(String emergencyContactList) {
-        this.emergencyContactList = emergencyContactList;
     }
 
     public String getStnType() {

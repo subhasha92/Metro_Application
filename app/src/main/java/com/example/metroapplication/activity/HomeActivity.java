@@ -1,42 +1,67 @@
 package com.example.metroapplication.activity;
 
-import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.metroapplication.R;
+import com.example.metroapplication.apis.ApiClient;
+import com.example.metroapplication.apis.ApiInterface;
+import com.example.metroapplication.apis.apiModel.FareRequestApi;
+import com.example.metroapplication.apis.apiModel.FareRequestData;
+import com.example.metroapplication.apis.apiModel.FareResponse;
 import com.example.metroapplication.helper.IncreamentDecreament;
+import com.example.metroapplication.myDataBase.MYdb;
+import com.example.metroapplication.sharedPref.AppPreferences;
+import com.example.metroapplication.sharedPref.VariablesConstant;
+import com.example.metroapplication.utils.ConnectionDetector;
 import com.example.metroapplication.utils.MenuActivity;
 
+import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends MenuActivity {
 
-    Spinner from, to;
-    Button addAdult, minusAdult, addChild, minusChild, addSr, minusSr, previewBtn, back;
+    Spinner fromSpinner, toSpinner;
+    Button addAdult, minusAdult, previewBtn, back;
     TextView adultCount, adultFare, discountFare, totalFare, actualFare;
     TextView joourneyTIck, amountToPay;
 
-    float disc, Actual;
+    float disc = 0, Actual;
     float Total;
-    int adult;
+    int adult = 0;
+
+    ConnectionDetector cd;
+    ApiInterface apiInterface;
 
     String jType;
 
-    int fare = 40;
+    MYdb mYdb;
+
+    FareRequestApi fareRequestApi;
+
+    int fare = 0;
+
+    int typeT;
 
     RadioButton singleTrip, returnTrip;
 
@@ -61,7 +86,7 @@ public class HomeActivity extends MenuActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(getSupportActionBar()).setTitle("Ticket");
         } else {
-            getSupportActionBar().setTitle("Ticket");
+            Objects.requireNonNull(getSupportActionBar()).setTitle("Ticket");
         }
 
         mID = new IncreamentDecreament(this);
@@ -81,19 +106,24 @@ public class HomeActivity extends MenuActivity {
         actualFare = findViewById(R.id.actual_amount_home);
         back = findViewById(R.id.back_home);
         joourneyTIck = findViewById(R.id.juorneyTick);
-        from = findViewById(R.id.spinner_from);
-        to = findViewById(R.id.spinner_to);
+        fromSpinner = findViewById(R.id.spinner_from);
+        toSpinner = findViewById(R.id.spinner_to);
         amountToPay = findViewById(R.id.amounttopay_home);
+
+        loadSpinnerData();
 
 
         int type = getIntent().getIntExtra("type", 0);
 
         if (type == 2) {
             returnTrip.setChecked(true);
-            jType="RJT";
+            jType = "RJT";
+            typeT = 2;
 
-        }else
-        {jType="SJT";}
+        } else {
+            jType = "SJT";
+            typeT = 1;
+        }
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams_Bold.ttf");
         joourneyTIck.setTypeface(typeface);
@@ -103,6 +133,9 @@ public class HomeActivity extends MenuActivity {
         adultFare.setText("Rs 0.00");
 
         totalFare.setText("Rs 0.00");
+
+        cd = new ConnectionDetector(this);
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +148,8 @@ public class HomeActivity extends MenuActivity {
             @Override
             public void onClick(View v) {
                 mID.increase(adultCount);
-                UpdateFare();
+                dataUpdate();
+
             }
         });
 
@@ -124,7 +158,8 @@ public class HomeActivity extends MenuActivity {
             public void onClick(View v) {
 
                 mID.decrease(adultCount);
-                UpdateFare();
+                dataUpdate();
+
 
             }
         });
@@ -135,14 +170,14 @@ public class HomeActivity extends MenuActivity {
 
                 if (isvalidation()) {
 
-                    int adultCounting= Integer.parseInt(adultCount.getText().toString().trim());
+                    int adultCounting = Integer.parseInt(adultCount.getText().toString().trim());
 
                     Intent intent = new Intent(HomeActivity.this, JourneyPreviewActivity.class);
                     intent.putExtra("count", adult);
                     intent.putExtra("total", Total);
                     intent.putExtra("tiketType", jType);
                     intent.putExtra("disc", disc);
-                    intent.putExtra("fare",fare);
+                    intent.putExtra("fare", fare);
                     intent.putExtra("amount", Actual);
                     startActivity(intent);
                 }
@@ -153,14 +188,12 @@ public class HomeActivity extends MenuActivity {
     }
 
     private void UpdateFare() {
-        adult = Integer.parseInt(adultCount.getText().toString());
-        float adultFare = fare * adult;
-         Total = adultFare;
-        disc = Total * 10 / 100;
+
+        float adultFare = fare;
+        Total = adultFare;
         Actual = Total - disc;
 
         this.adultFare.setText(String.format("Rs %.2f", adultFare));
-
         this.totalFare.setText(String.format("Rs %.2f", Total));
         this.discountFare.setText(String.format("Rs %.2f", disc));
         this.actualFare.setText(String.format("Rs %.2f", Actual));
@@ -180,18 +213,117 @@ public class HomeActivity extends MenuActivity {
 
     public boolean isvalidation() {
 
-        String name1 = from.getSelectedItem().toString();
-        String name2 = to.getSelectedItem().toString();
+        String name1 = fromSpinner.getSelectedItem().toString();
+        String name2 = toSpinner.getSelectedItem().toString();
 
         if (name1.equals("Null")) {
-            ((TextView) from.getChildAt(0)).setError("Select Location");
+            ((TextView) fromSpinner.getChildAt(0)).setError("Select Location");
             return false;
         }
         if (name2.equals("Null")) {
-            ((TextView) to.getSelectedView()).setError("Select Location");
+            ((TextView) toSpinner.getSelectedView()).setError("Select Location");
             return false;
         }
 
         return true;
     }
+
+    private void dataUpdate() {
+
+        final ProgressDialog progressdialog = ProgressDialog.show(
+                HomeActivity.this, "Please wait",
+                "Loading please wait..", true);
+        progressdialog.show();
+        progressdialog.setCancelable(true);
+
+        int fromname = fromSpinner.getSelectedItemPosition();
+        int toname = toSpinner.getSelectedItemPosition();
+        adult = Integer.parseInt(adultCount.getText().toString());
+        if (fromname != 0) {
+            if (toname != 0) {
+                Log.i("calling :" + fromname, "Call :" + toname);
+                if (fromname != toname) {
+                    if (adult != 0) {
+                        Toast.makeText(this, "" + fromname + "     " + toname, Toast.LENGTH_LONG).show();
+                        mYdb = new MYdb(this);
+                        if (cd.isConnectingToInternet()) {
+                            loadData();
+                            apiInterface = ApiClient.getClient().create(ApiInterface.class);
+                            Call<FareResponse> call = apiInterface.getFare(fareRequestApi);
+                            call.enqueue(new Callback<FareResponse>() {
+                                @Override
+                                public void onResponse(Call<FareResponse> call, Response<FareResponse> response) {
+                                    if (response.code() == 200) {
+                                        FareResponse fareResponse = response.body();
+                                        assert fareResponse != null;
+                                        if (fareResponse.getStatus() == 200) {
+
+                                            fare = Integer.parseInt(fareResponse.getPayload().get(0).getFareAmt());
+                                            disc = Float.parseFloat(fareResponse.getPayload().get(0).getDiscount());
+                                            UpdateFare();
+
+                                            progressdialog.dismiss();
+
+
+                                        }else
+                                        {
+                                            progressdialog.dismiss();
+                                            Toast.makeText(HomeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<FareResponse> call, Throwable t) {
+
+                                    progressdialog.dismiss();
+                                    Toast.makeText(HomeActivity.this, "Failed : "+t.getCause(), Toast.LENGTH_SHORT).show();
+
+
+                                }
+                            });
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void loadSpinnerData() {
+        MYdb db = new MYdb(getApplicationContext());
+        List<String> labels = db.getAllLabels();
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labels);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+
+        fromSpinner.setSelection(0);
+        toSpinner.setSelection(0);
+        fromSpinner.setAdapter(dataAdapter);
+        toSpinner.setAdapter(dataAdapter);
+
+
+    }
+
+
+    private void loadData() {
+        int channelId = 1;
+        String tokenId = AppPreferences.getAppPrefrences(VariablesConstant.TOKEN, this);
+        String ticketType = jType;
+        int srcStnId = mYdb.getStationId(fromSpinner.getSelectedItem().toString());
+        int desStnId = mYdb.getStationId(toSpinner.getSelectedItem().toString());
+        int paxType = 3;
+        int tktJrnyType = typeT;
+        int noOfPax = adult;
+        FareRequestData payload = new FareRequestData(ticketType, srcStnId, desStnId, paxType, tktJrnyType, noOfPax);
+        fareRequestApi = new FareRequestApi(channelId, tokenId, payload);
+    }
+
 }

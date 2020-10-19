@@ -2,23 +2,41 @@ package com.example.metroapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.metroapplication.R;
 import com.example.metroapplication.helper.IncreamentDecreament;
+import com.example.metroapplication.myDataBase.MYdb;
 import com.example.metroapplication.utils.MenuActivity;
+
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
+
 public class PassActivity extends MenuActivity {
 
     IncreamentDecreament mID;
+    Spinner fromSpinner, toSpinner;
+    RadioGroup rg;
+    RadioButton radioButton ,rb1,rb2,rb3;
     Button addAdult, minusAdult, addChild, minusChild, addSr, minusSr, previewBtn, backBtn;
     TextView adultCount, childCount, srCount, adultFare, childFare, srFare, discountFare, totalFare, actualFare;
 
@@ -28,6 +46,7 @@ public class PassActivity extends MenuActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,74 +57,30 @@ public class PassActivity extends MenuActivity {
         );
         setContentView(R.layout.activity_pass);
 
-        mID = new IncreamentDecreament(this);
-        addAdult = findViewById(R.id.increase_adult_home);
-        minusAdult = findViewById(R.id.decrease_adult_home);
-//        addChild=findViewById(R.id.increase_child_home);
-//        minusChild=findViewById(R.id.decrease_child_home);
-//        addSr=findViewById(R.id.increase_sr_home);
-//        minusSr=findViewById(R.id.decrease_sr_home);
-        adultCount = findViewById(R.id.adult_number_home);
-//        childCount=findViewById(R.id.number_child_home);
-//        srCount=findViewById(R.id.number_sr_home);
+
+
         previewBtn = findViewById(R.id.pay_now_btn_pass);
-        adultFare = findViewById(R.id.adult_amount_home);
-//        childFare=findViewById(R.id.child_amount_home);
-//        srFare=findViewById(R.id.sr_amount_home);
 
-        totalFare = findViewById(R.id.total_amount_home);
-        actualFare = findViewById(R.id.actual_amount_pass);
+
+
+
+        fromSpinner = findViewById(R.id.spinner_from);
+        toSpinner = findViewById(R.id.spinner_to);
         backBtn = findViewById(R.id.back_btn_pass);
+        loadSpinnerData();
+//        if (fromSpinner.getDisplay().toString().equals("Null") || toSpinner.getDisplay().toString().equals("Null")) {
+//            rg.setEnabled(false);
+//        }
+        int amount=400;
+
+//        int amount= 440;
+//        Resources res = getResources();
+//        String text=getString(R.string.pass_details,amount);
+////        Spanned styledText = Html.fromHtml(text, FROM_HTML_MODE_LEGACY);
+//        radioButton.setText(""+text);
 
 
-        addAdult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mID.increase(adultCount);
-                UpdateFare();
-            }
-        });
-//        addChild.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mID.increase(childCount);
-//                UpdateFare();
-//            }
-//        });
-//        addSr.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mID.increase(srCount);
-//                UpdateFare();
-//            }
-//        });
-        minusAdult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                mID.decrease(adultCount);
-                UpdateFare();
-
-            }
-        });
-//        minusChild.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                mID.decrease(childCount);
-//                UpdateFare();
-//
-//            }
-//        });
-//        minusSr.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                mID.decrease(srCount);
-//                UpdateFare();
-//
-//            }
-//        });
 
         previewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,5 +127,24 @@ public class PassActivity extends MenuActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void loadSpinnerData() {
+        MYdb db = new MYdb(getApplicationContext());
+        List<String> labels = db.getAllLabels();
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        fromSpinner.setSelection(0);
+        toSpinner.setSelection(0);
+        fromSpinner.setAdapter(dataAdapter);
+        toSpinner.setAdapter(dataAdapter);
+
     }
 }

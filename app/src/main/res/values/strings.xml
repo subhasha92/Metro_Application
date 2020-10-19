@@ -17,4 +17,8 @@
 
     <string name="Rs">\u20B9</string>
 
+    <string name="pass_details1"><b>45 TRIPS PASS </b>\nValid for 30 days</string>
+    <string name="pass_details2"><b>30 TRIPS PASS </b>\nValid for 30 days</string>
+    <string name="pass_details3"><b>10 TRIPS PASS </b>\nValid for 15 days</string>
+
 </resources>

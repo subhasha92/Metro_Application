@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,8 @@ import com.example.metroapplication.apis.ApiInterface;
 import com.example.metroapplication.apis.apiModel.MasterData;
 import com.example.metroapplication.apis.apiModel.MasterRequest;
 import com.example.metroapplication.apis.apiModel.MasterRequestPayload;
+import com.example.metroapplication.model.StationModel;
+import com.example.metroapplication.myDataBase.MYdb;
 import com.example.metroapplication.sharedPref.AppPreferences;
 import com.example.metroapplication.sharedPref.VariablesConstant;
 import com.example.metroapplication.utils.ConnectionDetector;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout relativeLayout;
 
     ConnectionDetector cd;
+    MYdb mYdb;
 
     ApiInterface apiInterface;
     MasterRequest masterRequest;
@@ -89,11 +93,21 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code()==200){
                     MasterData masterData=response.body();
                     if (masterData.getStatus()==200){
+                        mYdb=new MYdb(MainActivity.this);
 
+                        int i=masterData.getPayload().getStnList().size();
 
-
+                        for (int num=0;num<i;num++) {
+                            int stnId=masterData.getPayload().getStnList().get(num).getStnId();
+                            String stnName=masterData.getPayload().getStnList().get(num).getStnName();
+                            String gpsLocation=masterData.getPayload().getStnList().get(num).getGpsLocation();
+                            String intchngLine=masterData.getPayload().getStnList().get(num).getIntchngLine();
+                            String orgLine=masterData.getPayload().getStnList().get(num).getOrgLine();
+                            StationModel stationModel =new StationModel(stnId,stnName,gpsLocation,intchngLine,orgLine);
+                            mYdb.addStation(stationModel);
+                        }
                         progressdialog.dismiss();
-                        Snackbar.make(relativeLayout,"No Internet Connection",Snackbar.LENGTH_LONG).show();
+                        //Snackbar.make(relativeLayout,"No Internet Connection",Snackbar.LENGTH_LONG).show();
 
 
 
@@ -110,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MasterData> call, Throwable t) {
+
+                Toast.makeText(MainActivity.this, "Failed : " + t.getCause(), Toast.LENGTH_SHORT).show();
 
             }
         });}
@@ -177,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
         MPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, PassActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, PassActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -242,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         String token=AppPreferences.getAppPrefrences(VariablesConstant.TOKEN,this);
 
         String master="getMaster";
-        String userId=AppPreferences.getAppPrefrences(VariablesConstant.EMAIL,this);
+        String userId=AppPreferences.getAppPrefrences(VariablesConstant.USER_EMAIL,this);
 
 
         MasterRequestPayload masterRequestPayload;

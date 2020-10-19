@@ -2,64 +2,58 @@ package com.example.metroapplication.model;
 
 public class StationModel {
 
+    int stnId;
+    String stnName;
 
-    private String stationId;
-    private String stationName;
-    private String stationInterchange;
-    private String stationInterchangeLine;
-    private String stationOriginLine;
+    String gpsLocation;
+    String intchngLine;
+    String orgLine;
 
-    public StationModel(String stationId, String stationName, String stationInterchange, String stationInterchangeLine, String stationOriginLine) {
-        this.stationId = stationId;
-        this.stationName = stationName;
-        this.stationInterchange = stationInterchange;
-        this.stationInterchangeLine = stationInterchangeLine;
-        this.stationOriginLine = stationOriginLine;
+    public StationModel(int stnId, String stnName, String gpsLocation, String intchngLine, String orgLine) {
+        this.stnId = stnId;
+        this.stnName = stnName;
+        this.gpsLocation = gpsLocation;
+        this.intchngLine = intchngLine;
+        this.orgLine = orgLine;
     }
 
-
-    public String getStationId() {
-        return stationId;
+    public int getStnId() {
+        return stnId;
     }
 
-
-    public void setStationId(String stationId) {
-        this.stationId = stationId;
+    public void setStnId(int stnId) {
+        this.stnId = stnId;
     }
 
-    public String getStationName() {
-        return stationName;
-
+    public String getStnName() {
+        return stnName;
     }
 
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
+    public void setStnName(String stnName) {
+        this.stnName = stnName;
     }
 
-    public String getStationInterchange() {
-        return stationInterchange;
+    public String getGpsLocation() {
+        return gpsLocation;
     }
 
-    public void setStationInterchange(String stationInterchange) {
-
-
-        this.stationInterchange = stationInterchange;
-
+    public void setGpsLocation(String gpsLocation) {
+        this.gpsLocation = gpsLocation;
     }
 
-    public String getStationInterchangeLine() {
-        return stationInterchangeLine;
+    public String getIntchngLine() {
+        return intchngLine;
     }
 
-    public void setStationInterchangeLine(String stationInterchangeLine) {
-        this.stationInterchangeLine = stationInterchangeLine;
+    public void setIntchngLine(String intchngLine) {
+        this.intchngLine = intchngLine;
     }
 
-    public String getStationOriginLine() {
-        return stationOriginLine;
+    public String getOrgLine() {
+        return orgLine;
     }
 
-    public void setStationOriginLine(String stationOriginLine) {
-        this.stationOriginLine = stationOriginLine;
+    public void setOrgLine(String orgLine) {
+        this.orgLine = orgLine;
     }
 }

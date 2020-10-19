@@ -2,14 +2,14 @@ package com.example.metroapplication.apis;
 
 
 public class EndApi extends BaseApi {
-    public static final String LOGIN_USER = "login";
+
     public static final String REGISTER_USER = "custReg";
     public static final String GET_MASTER_DATA = "getMasterData";
     public static final String SJT_TICKET = "qrSJTicket";
-    public static final String UPDATE_PROFILE_PICTURE = "profile_pic";
-    public static final String SEND_OTP = "otp";
+    public static final String GET_TRIPS = "getMyTrips";
+    public static final String GET_FARE = "getTicketFare";
     public static final String VALIDATE_OTP = "mobileVerification";
-    public static final String LOGIN = "login";
+    public static final String LOGIN = "custlogin";
     public static final String FORGET_PASSWORD = "recover";
     public static final String CHANGE_PASSWORD = "changePwd";
     public static final String VALUE_QR_TICKET = "issueValueQR";
@@ -42,8 +42,6 @@ public class EndApi extends BaseApi {
     public static final String CAR_ACTIVITY = "car_activity";
     public static final String TICKER_MSG = "tickermessage";
     public static final String SPEED_LIMIT = "speed_limit";
-
-
     public static final String PROCESS_GPS_DATA = "process_gps_data";
 
 }

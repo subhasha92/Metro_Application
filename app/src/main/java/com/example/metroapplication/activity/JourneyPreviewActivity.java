@@ -128,7 +128,7 @@ public class JourneyPreviewActivity extends MenuActivity{
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams_Bold.ttf");
         preview.setTypeface(typeface);
 
-        tvType.setText(pssType);
+        tvType.setText(type);
         tvnOfT.setText(String.valueOf(noOfTkt));
         tvAmount.setText(String.valueOf(totalAmt));
         tvDis.setText(String.valueOf(discount));
