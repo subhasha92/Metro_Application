@@ -23,15 +23,25 @@ import com.example.metroapplication.apis.ApiInterface;
 import com.example.metroapplication.apis.apiModel.FareRequestApi;
 import com.example.metroapplication.apis.apiModel.FareRequestData;
 import com.example.metroapplication.apis.apiModel.FareResponse;
+import com.example.metroapplication.apis.apiModel.PassengerInfoSJTRequestData;
+import com.example.metroapplication.apis.apiModel.SJTTicketGenerateRequest;
+import com.example.metroapplication.apis.apiModel.SJTTicketGenerateRequestData;
+import com.example.metroapplication.apis.apiModel.SJTTicketGenerateResponse;
+import com.example.metroapplication.apis.apiModel.SJTicketRequest;
+import com.example.metroapplication.apis.apiModel.SJTicketRequestData;
+import com.example.metroapplication.constants.Constants;
 import com.example.metroapplication.helper.IncreamentDecreament;
 import com.example.metroapplication.myDataBase.MYdb;
 import com.example.metroapplication.sharedPref.AppPreferences;
 import com.example.metroapplication.sharedPref.VariablesConstant;
 import com.example.metroapplication.utils.ConnectionDetector;
 import com.example.metroapplication.utils.MenuActivity;
+import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,8 +60,17 @@ public class HomeActivity extends MenuActivity {
     float Total;
     int adult = 0;
 
+    String pssType;
+    int noOfTkt;
+    float tktAmount;
+    float discount;
+    float amtPaid;
+    float totalAmt;
+    String type, from, to;
+
     ConnectionDetector cd;
     ApiInterface apiInterface;
+    SJTTicketGenerateRequest sjtTicketGenerateRequest;
 
     String jType;
 
@@ -170,17 +189,50 @@ public class HomeActivity extends MenuActivity {
 
                 if (isvalidation()) {
 
+
                     int adultCounting = Integer.parseInt(adultCount.getText().toString().trim());
 
-                    Intent intent = new Intent(HomeActivity.this, JourneyPreviewActivity.class);
-                    intent.putExtra("count", adult);
-                    intent.putExtra("total", Total);
-                    intent.putExtra("tiketType", jType);
-                    intent.putExtra("disc", disc);
-                    intent.putExtra("fare", fare);
-                    intent.putExtra("amount", Actual);
-                    startActivity(intent);
-                }
+
+                    if (adultCounting!=0){
+                        final ProgressDialog progressdialog = ProgressDialog.show(
+                                HomeActivity.this, "Please wait",
+                                "Loading please wait..", true);
+                        progressdialog.show();
+                        progressdialog.setCancelable(true);
+
+                        loadData1();
+                        Call<SJTTicketGenerateResponse> call=apiInterface.generateTicketID(sjtTicketGenerateRequest);
+
+                        call.enqueue(new Callback<SJTTicketGenerateResponse>() {
+                            @Override
+                            public void onResponse(Call<SJTTicketGenerateResponse> call, Response<SJTTicketGenerateResponse> response) {
+
+                                if (response.code()==200) {
+                                    SJTTicketGenerateResponse sjtTicketGenerateResponse=response.body();
+                                    assert sjtTicketGenerateResponse != null;
+                                    if (sjtTicketGenerateResponse.getStatus()==200) {
+                                        Intent intent = new Intent(HomeActivity.this, JourneyPreviewActivity.class);
+                                        intent.putExtra("count", adult);
+                                        intent.putExtra("total", Total);
+                                        intent.putExtra("tiketType", jType);
+                                        intent.putExtra("disc", disc);
+                                        intent.putExtra("fare", fare);
+                                        intent.putExtra("amount", Actual);
+                                        intent.putExtra("from", from);
+                                        intent.putExtra("to", to);
+                                        startActivity(intent);
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<SJTTicketGenerateResponse> call, Throwable t) {
+
+                            }
+                        });
+
+                }}
 
             }
         });
@@ -324,6 +376,36 @@ public class HomeActivity extends MenuActivity {
         int noOfPax = adult;
         FareRequestData payload = new FareRequestData(ticketType, srcStnId, desStnId, paxType, tktJrnyType, noOfPax);
         fareRequestApi = new FareRequestApi(channelId, tokenId, payload);
+    }
+
+    public void loadData1(){
+
+        pssType = "Adult";
+        noOfTkt=adult;
+        tktAmount=fare;
+        discount=disc;
+        amtPaid=Actual;
+        totalAmt=Total;
+        type=jType;
+
+        PassengerInfoSJTRequestData passengerInfoSJTRequestData = new PassengerInfoSJTRequestData(pssType,noOfTkt,tktAmount,discount,amtPaid,totalAmt);
+
+        List<PassengerInfoSJTRequestData> llst=new ArrayList<>();
+        llst.add(passengerInfoSJTRequestData);
+
+        String userId=AppPreferences.getAppPrefrences(VariablesConstant.USER_EMAIL,this);
+        String srcStnId = String.valueOf(mYdb.getStationId(fromSpinner.getSelectedItem().toString()));
+        String desStnId = String.valueOf(mYdb.getStationId(toSpinner.getSelectedItem().toString()));
+        String cust_IPaddress = Constants.ipAddress;
+        String cust_IMIE_No=Constants.imei;
+        String tktType=type;
+
+        String token=AppPreferences.getAppPrefrences(VariablesConstant.TOKEN,this);
+
+        SJTTicketGenerateRequestData sjtTicketGenerateRequestData=new SJTTicketGenerateRequestData(userId, srcStnId,desStnId,cust_IPaddress,cust_IMIE_No,tktType,llst);
+
+        sjtTicketGenerateRequest=new SJTTicketGenerateRequest(1,token,sjtTicketGenerateRequestData );
+
     }
 
 }

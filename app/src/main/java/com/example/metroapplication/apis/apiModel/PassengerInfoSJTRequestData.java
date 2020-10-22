@@ -8,7 +8,6 @@ public class PassengerInfoSJTRequestData {
       float discount;
       float amtPaid;
       float totalAmt;
-
     public PassengerInfoSJTRequestData(String pssType, int noOfTkt, float tktAmount, float discount, float amtPaid, float totalAmt) {
         this.pssType = pssType;
         this.noOfTkt = noOfTkt;
