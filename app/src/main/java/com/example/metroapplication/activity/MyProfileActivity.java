@@ -36,7 +36,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MyProfileActivity extends MenuActivity {
 
-    Button chPassword, Backbtn, SaveBtn;
+    Button Backbtn, SaveBtn;
     EditText etFname, etLname, etEmai, etMobile, etAddress1, etAddress2, etCity, etState, etPincode;
 
     String firstName, lastName, email, password;
@@ -48,7 +48,6 @@ public class MyProfileActivity extends MenuActivity {
     ApiInterface apiInterface;
 
     UpdateMyProfileRequest updateMyProfileRequest;
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,7 +63,6 @@ public class MyProfileActivity extends MenuActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,14 +164,6 @@ public class MyProfileActivity extends MenuActivity {
             }
         });
 
-//        chPassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(MyProfileActivity.this, ChangePassword.class);
-//                startActivity(intent);
-//
-//            }
-//        });
 
         Backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
