@@ -22,10 +22,13 @@ import com.example.metroapplication.apis.apiModel.LoginPayload;
 import com.example.metroapplication.apis.apiModel.LoginResponse;
 import com.example.metroapplication.apis.apiModel.LoginResponseData;
 import com.example.metroapplication.apis.apiModel.PassengerInfoSJTRequestData;
+import com.example.metroapplication.apis.apiModel.SJTTicketGenerateRequest;
+import com.example.metroapplication.apis.apiModel.SJTTicketGenerateResponse;
 import com.example.metroapplication.apis.apiModel.SJTicketRequest;
 import com.example.metroapplication.apis.apiModel.SJTicketRequestData;
 import com.example.metroapplication.apis.apiModel.SjtQrResponse;
 import com.example.metroapplication.constants.Constants;
+import com.example.metroapplication.myDataBase.MYdb;
 import com.example.metroapplication.sharedPref.AppPreferences;
 import com.example.metroapplication.sharedPref.VariablesConstant;
 import com.example.metroapplication.utils.ConnectionDetector;
@@ -51,14 +54,14 @@ public class JourneyPreviewActivity extends MenuActivity{
 
     TextView preview;
 
-    TextView tvType, tvnOfT, tvAmount, tvDis, tvTotal;
+    TextView tvType, tvnOfT, tvAmount, tvDis, tvTotal ,tvFrom,tvTo;
 
     LinearLayout adultLayout;
 
     ConnectionDetector cd;
 
     ApiInterface apiInterface;
-
+MYdb mYdb;
     SJTicketRequest sjTicketRequest;
 
     String pssType;
@@ -68,7 +71,11 @@ public class JourneyPreviewActivity extends MenuActivity{
     float amtPaid;
     float totalAmt;
     String type;
+    int from;
+    int to;
 
+SJTTicketGenerateResponse sjtTicketGenerateResponse;
+    SJTTicketGenerateRequest sjtTicketGenerateRequest;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,14 +110,19 @@ public class JourneyPreviewActivity extends MenuActivity{
         }
 
         cd=new ConnectionDetector(this);
+        mYdb=new MYdb(this);
+
+        sjtTicketGenerateResponse= (SJTTicketGenerateResponse) getIntent().getSerializableExtra("data");
 
         pssType = "Adult";
-        noOfTkt=getIntent().getIntExtra("count",0);
-        tktAmount=getIntent().getIntExtra("fare",0);
-        discount=getIntent().getFloatExtra("disc",0);
-        amtPaid=getIntent().getFloatExtra("amount",0);
-        totalAmt=getIntent().getFloatExtra("total",0);
-        type=getIntent().getStringExtra("tiketType");
+        noOfTkt=sjtTicketGenerateResponse.getPayload().get(0).getPsgList().get(0).getNoOfTkt();
+        tktAmount=sjtTicketGenerateResponse.getPayload().get(0).getPsgList().get(0).getTktAmount();
+        discount=sjtTicketGenerateResponse.getPayload().get(0).getPsgList().get(0).getDiscount();
+        amtPaid=sjtTicketGenerateResponse.getPayload().get(0).getPsgList().get(0).getAmtPaid();
+        totalAmt=sjtTicketGenerateResponse.getPayload().get(0).getPsgList().get(0).getTotalAmt();
+        from=sjtTicketGenerateResponse.getPayload().get(0).getSrcStnId();
+        to=sjtTicketGenerateResponse.getPayload().get(0).getDestStnId();
+        type=sjtTicketGenerateResponse.getPayload().get(0).getTktType();
 
         payNow = findViewById(R.id.pay_now_journey_preview);
         backBtn = findViewById(R.id.back_journey_preview);
@@ -120,6 +132,8 @@ public class JourneyPreviewActivity extends MenuActivity{
         tvAmount=findViewById(R.id.adult_journey_preview);
         tvDis=findViewById(R.id.dis_amount_journey_preview);
         tvTotal=findViewById(R.id.total_amount_journey_preview);
+        tvFrom=findViewById(R.id.from_journey_preview);
+        tvTo=findViewById(R.id.to_journey_preview);
 
         adultLayout = findViewById(R.id.adultLayout);
 
@@ -133,6 +147,8 @@ public class JourneyPreviewActivity extends MenuActivity{
         tvAmount.setText(String.valueOf(totalAmt));
         tvDis.setText(String.valueOf(discount));
         tvTotal.setText(String.valueOf(amtPaid));
+        tvFrom.setText(mYdb.getStationName(from));
+        tvTo.setText(mYdb.getStationName(to));
 
         if (noOfTkt == 0) {
             adultLayout.setVisibility(View.GONE);
@@ -155,13 +171,21 @@ public class JourneyPreviewActivity extends MenuActivity{
                         @Override
                         public void onResponse(Call<SjtQrResponse> call, Response<SjtQrResponse> response) {
                             if (response.code()==200){
-                                progressdialog.dismiss();
-                                Toast.makeText(JourneyPreviewActivity.this, "Success" + response.body(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(JourneyPreviewActivity.this, "Success" + response.body(), Toast.LENGTH_SHORT).show();
                                 SjtQrResponse sjtQrResponse=response.body();
-                                Intent intent=new Intent(JourneyPreviewActivity.this,PostPaymentActivity.class);
-                                intent.putExtra("data", sjtQrResponse);
-                                intent.putExtra("flag",1);
-                                startActivity(intent);
+                                assert sjtQrResponse != null;
+                                if (sjtQrResponse.getStatus()==200) {
+                                    Intent intent = new Intent(JourneyPreviewActivity.this, PostPaymentActivity.class);
+                                    intent.putExtra("data", sjtQrResponse);
+                                    intent.putExtra("flag", 1);
+                                    progressdialog.dismiss();
+                                    startActivity(intent);
+                                }else
+                                {
+                                    progressdialog.dismiss();
+                                    Toast.makeText(JourneyPreviewActivity.this, "Server Error : " + sjtQrResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                }
                             }
 
                         }
@@ -188,6 +212,7 @@ public class JourneyPreviewActivity extends MenuActivity{
 
     private void loadData() {
 
+        MYdb mYdb=new MYdb(this);
         PassengerInfoSJTRequestData passengerInfoSJTRequestData = new PassengerInfoSJTRequestData(pssType,noOfTkt,tktAmount,discount,amtPaid,totalAmt);
 
         List<PassengerInfoSJTRequestData> llst=new ArrayList<>();
@@ -195,10 +220,10 @@ public class JourneyPreviewActivity extends MenuActivity{
 
         String userId=AppPreferences.getAppPrefrences(VariablesConstant.USER_EMAIL,this);
         String tktBookingDate = String.valueOf(android.text.format.DateFormat.format("yyyy-MM-dd", new java.util.Date()));
-        String srcStnId = "22";
-        String destStnId = "34";
-        Random rnd = new Random();
-        long tktNo=rnd.nextInt(9999999);
+        String srcStnId = String.valueOf(from);
+        String destStnId = String.valueOf(to);
+
+        long tktNo=sjtTicketGenerateResponse.getPayload().get(0).getTktNo();
         String cust_IPaddress = Constants.ipAddress;
         String cust_IMIE_No=Constants.imei;
         String tktType=type;

@@ -3,36 +3,34 @@ package com.example.metroapplication.sharedPref;
 public class VariablesConstant {
 
 
-    public static final String LOCALE_PREF_KEY = "LOCALE_PREF_KEY";
+
     public static final String TOKEN = "TOKEN";
 
     public static final String USER_ID = "USER_ID";
-    public static final String LOGIN_STATUS = "LOGIN_STATUS";
+
+    public static final String ADDRESS_1 = "ADDRESS_1";
+    public static final String ADDRESS_2 = "ADDRESS_2";
+    public static final String CITY = "CITY";
+    public static final String STATE = "STATE";
+    public static final String PINCODE = "PINCODE";
 
 
-    public static final String DEVICE_TOKEN = "DEVICE_TOKEN";
-
-
-    public static final String DEVICE_NAME = "DEVICE_NAME"; // DeviceName
-    public static final String DEVICE_IMEI = "DEVICE_IMEI"; // device_IMEI
-
-    public static final String USER_TYPE = "USER_TYPE";
     public static final String USER_FIRSTNAME = "USER_FIRSTNAME";
     public static final String USER_LASTNAME = "USER_LASTNAME";
 
 
-    public static final String USER_NAME = "USER_NAME";
+
 
     public static final String USER_EMAIL = "USER_EMAIL";
 
     public static final String PASSWORD = "PASSWORD";
 
-    public static final String EMAIL = "EMAIL";
+
 
 
     public static final String MOBILE = "MOBILE";
 
-    public static final String MOBILE_LOGIN = "MOBILE_LOGIN";
+
 
     public static final String ADDRESS = "ADDRESS";
     public static final String DOB = "DOB";

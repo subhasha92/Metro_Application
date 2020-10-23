@@ -13,8 +13,8 @@ public class EndApi extends BaseApi {
     public static final String FORGET_PASSWORD = "recover";
     public static final String CHANGE_PASSWORD = "changePwd";
     public static final String VALUE_QR_TICKET = "issueValueQR";
-    public static final String SHOW_VEHICLE_LIST = "show_vehicles";
-    public static final String SHOW_VEHICLE_LIST1 = "show_vehicles1";
+    public static final String UPDATE_MY_PROFILE = "myProfile";
+    public static final String GET_TICKET_ID = "submitTicketInfo";
     public static final String SHOW_DRIVER_LIST = "show_driver";
     public static final String SHOW_DEVICES_LIST = "show_devices";
     public static final String SHOW_SUB_USERS = "show_sub_users";
