@@ -3,5 +3,8 @@
     <account id="a7f053b0-2ad9-4734-9bfc-7626fb5e0a82" name="TSubhashA">
       <server host="github.com" />
     </account>
+    <account id="190d8996-1bb8-47ac-af97-91fe80713410" name="subhash@nextgentele.in">
+      <server host="github.com" />
+    </account>
   </component>
 </application>
