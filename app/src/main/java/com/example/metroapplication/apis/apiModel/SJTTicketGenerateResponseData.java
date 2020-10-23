@@ -1,8 +1,9 @@
 package com.example.metroapplication.apis.apiModel;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SJTTicketGenerateResponseData {
+public class SJTTicketGenerateResponseData implements Serializable {
 
     int srcStnId;
     int destStnId;

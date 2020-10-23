@@ -124,4 +124,24 @@ public class MYdb extends SQLiteOpenHelper {
         return id;
     }
 
+    public String getStationName(int stationId){
+
+        String name = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query="SELECT * FROM "+Stations.stationTableName+" WHERE "+Stations.stationId+" = ?";
+        Cursor cursor = db.rawQuery(query,
+                new String[]{String.valueOf(stationId)});
+
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+            name = cursor.getString(cursor.getColumnIndex(Stations.stationName));
+            cursor.close();
+        }
+
+        db.close();
+        return name;
+    }
+
 }

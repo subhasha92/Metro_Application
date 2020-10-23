@@ -38,6 +38,7 @@ import com.example.metroapplication.utils.ConnectionDetector;
 import com.example.metroapplication.utils.MenuActivity;
 import com.google.gson.JsonElement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -166,8 +167,13 @@ public class HomeActivity extends MenuActivity {
         addAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mID.increase(adultCount);
-                dataUpdate();
+                int from=fromSpinner.getSelectedItemPosition();
+                int to=toSpinner.getSelectedItemPosition();
+
+                if(from!=0 && to !=0) {
+                    mID.increase(adultCount);
+                    dataUpdate();
+                }
 
             }
         });
@@ -175,11 +181,13 @@ public class HomeActivity extends MenuActivity {
         minusAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int from=fromSpinner.getSelectedItemPosition();
+                int to=toSpinner.getSelectedItemPosition();
 
-                mID.decrease(adultCount);
-                dataUpdate();
-
-
+                if(from!=0 && to !=0) {
+                    mID.decrease(adultCount);
+                    dataUpdate();
+                }
             }
         });
 
@@ -212,14 +220,7 @@ public class HomeActivity extends MenuActivity {
                                     assert sjtTicketGenerateResponse != null;
                                     if (sjtTicketGenerateResponse.getStatus()==200) {
                                         Intent intent = new Intent(HomeActivity.this, JourneyPreviewActivity.class);
-                                        intent.putExtra("count", adult);
-                                        intent.putExtra("total", Total);
-                                        intent.putExtra("tiketType", jType);
-                                        intent.putExtra("disc", disc);
-                                        intent.putExtra("fare", fare);
-                                        intent.putExtra("amount", Actual);
-                                        intent.putExtra("from", from);
-                                        intent.putExtra("to", to);
+                                        intent.putExtra("data", (Serializable) sjtTicketGenerateResponse);
                                         startActivity(intent);
                                     }
                                 }
@@ -313,9 +314,7 @@ public class HomeActivity extends MenuActivity {
                                             fare = Integer.parseInt(fareResponse.getPayload().get(0).getFareAmt());
                                             disc = Float.parseFloat(fareResponse.getPayload().get(0).getDiscount());
                                             UpdateFare();
-
                                             progressdialog.dismiss();
-
 
                                         }else
                                         {

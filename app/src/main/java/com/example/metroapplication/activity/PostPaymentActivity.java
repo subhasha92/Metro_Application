@@ -84,7 +84,8 @@ public class PostPaymentActivity extends MenuActivity {
         if (flag==1)
         {
             sjtQrResponse= (SjtQrResponse) getIntent().getSerializableExtra("data");
-        qrText=String.valueOf(sjtQrResponse.getPayload().get(0).getQrTicketHash())==null?"subhash":String.valueOf(sjtQrResponse.getPayload().get(0).getQrTicketHash());
+            String.valueOf(sjtQrResponse.getPayload().get(0).getQrTicketHash());
+            qrText= String.valueOf(sjtQrResponse.getPayload().get(0).getQrTicketHash());
         tvAmountPaiḍ.setText(String.valueOf(sjtQrResponse.getPayload().get(0).getPaidAmt()));
         tvDate.setText(String.valueOf(sjtQrResponse.getPayload().get(0).getTktBookingdt()));
         tvValid.setText(String.valueOf(sjtQrResponse.getPayload().get(0).getTkt_validity()));
@@ -122,9 +123,7 @@ public class PostPaymentActivity extends MenuActivity {
         } else {
             qr.createQR(qrText, imageView);
         }
-
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 // TODO Auto-generated method stub
@@ -133,7 +132,6 @@ public class PostPaymentActivity extends MenuActivity {
             }
         }, 1000);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);

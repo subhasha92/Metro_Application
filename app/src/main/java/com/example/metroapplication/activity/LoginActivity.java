@@ -130,6 +130,12 @@ public class LoginActivity extends AppCompatActivity {
                                         AppPreferences.setAppPrefrences(VariablesConstant.USER_LASTNAME,loginResponseData.get(0).getLastName(),LoginActivity.this);
                                         AppPreferences.setAppPrefrences(VariablesConstant.USER_EMAIL,loginResponseData.get(0).getEmailId(),LoginActivity.this);
                                         AppPreferences.setAppPrefrences(VariablesConstant.PASSWORD,loginResponseData.get(0).getPwd(),LoginActivity.this);
+                                        AppPreferences.setAppPrefrences(VariablesConstant.ADDRESS_1,loginResponseData.get(0).getPwd(),LoginActivity.this);
+                                        AppPreferences.setAppPrefrences(VariablesConstant.ADDRESS_2,loginResponseData.get(0).getPwd(),LoginActivity.this);
+                                        AppPreferences.setAppPrefrences(VariablesConstant.CITY,loginResponseData.get(0).getPwd(),LoginActivity.this);
+                                        AppPreferences.setAppPrefrences(VariablesConstant.STATE,loginResponseData.get(0).getPwd(),LoginActivity.this);
+                                        AppPreferences.setAppPrefrences(VariablesConstant.PINCODE,loginResponseData.get(0).getPwd(),LoginActivity.this);
+
                                         progressdialog.dismiss();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
