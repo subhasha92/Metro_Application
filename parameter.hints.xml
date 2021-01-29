@@ -1,0 +1,9 @@
+<application>
+  <component name="ParameterNameHintsSettings">
+    <blacklists>
+      <blacklist language="Java">
+        <added pattern="com.google.android.gms.maps.SupportMapFragment.getMapAsync(onMapReadyCallback)" />
+      </blacklist>
+    </blacklists>
+  </component>
+</application>
