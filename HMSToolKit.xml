@@ -1,5 +1,16 @@
 <application>
   <component name="HMSToolKitPlugin">
+    <option name="localAgreementList">
+      <list>
+        <LocalAgreement>
+          <option name="agree" value="true" />
+          <option name="area" value="DR2" />
+          <option name="name" value="latest" />
+          <option name="signAgreementTime" value="1612526455677" />
+          <option name="version" value="20201214" />
+        </LocalAgreement>
+      </list>
+    </option>
     <option name="usedKitsMap">
       <map>
         <entry key="3f04a23a">
