@@ -115,7 +115,9 @@
         </entry>
         <entry key="dbc608d0">
           <value>
-            <list />
+            <list>
+              <option value="Scan Kit" />
+            </list>
           </value>
         </entry>
         <entry key="dcdb6d51">
