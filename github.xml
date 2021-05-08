@@ -1,10 +1,10 @@
 <application>
   <component name="GithubAccounts">
-    <account id="257adf83-4a43-43f5-8e96-69a240b5fb6b" name="subhashNextGen">
-      <server host="github.com" />
-    </account>
     <account id="fe93edd0-b2f0-408b-99c3-986c1fabd281" name="subhashNextGen">
       <server useHttp="false" host="github.com" />
+    </account>
+    <account id="af097fd2-8c0b-4da0-9341-3f711aa73ce9" name="TSubhashA">
+      <server host="github.com" />
     </account>
   </component>
 </application>
