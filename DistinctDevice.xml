@@ -1,0 +1,12 @@
+<application>
+  <component name="DistinctDevice">
+    <option name="androidVersion" value="10" />
+    <option name="deviceForm" value="PHYSICAL" />
+    <option name="deviceType" value="PHONE" />
+    <option name="emui" value="10.1.0" />
+    <option name="model" value="ana-nx9" />
+    <option name="phoneName" value="p40" />
+    <option name="xres" value="1080" />
+    <option name="yres" value="2340" />
+  </component>
+</application>
