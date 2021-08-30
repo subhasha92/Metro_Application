@@ -1,0 +1,7 @@
+<application>
+  <component name="GithubAccounts">
+    <account id="d84ced42-4216-4eca-b9f9-ade83c0b93a9" name="subhashNextGen">
+      <server host="github.com" />
+    </account>
+  </component>
+</application>
