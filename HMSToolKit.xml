@@ -13,11 +13,6 @@
     </option>
     <option name="usedKitsMap">
       <map>
-        <entry key="2c56ee66">
-          <value>
-            <list />
-          </value>
-        </entry>
         <entry key="30ae0961">
           <value>
             <list />
@@ -229,6 +224,11 @@
           </value>
         </entry>
         <entry key="c6362eb2">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="d4a4af00">
           <value>
             <list />
           </value>
