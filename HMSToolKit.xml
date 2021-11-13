@@ -5,9 +5,15 @@
         <LocalAgreement>
           <option name="agree" value="true" />
           <option name="area" value="DR2" />
-          <option name="name" value="latest" />
+          <option name="name" value="history" />
           <option name="signAgreementTime" value="1612526455677" />
           <option name="version" value="20201214" />
+        </LocalAgreement>
+        <LocalAgreement>
+          <option name="area" value="DR2" />
+          <option name="name" value="latest" />
+          <option name="signAgreementTime" value="1636786128016" />
+          <option name="version" value="20210330" />
         </LocalAgreement>
       </list>
     </option>
